@@ -8,3 +8,5 @@ biscuit.egg-info/SOURCES.txt
 biscuit.egg-info/dependency_links.txt
 biscuit.egg-info/requires.txt
 biscuit.egg-info/top_level.txt
+biscuit/model/user.py
+tests/mock/user_mock.py

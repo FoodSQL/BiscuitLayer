@@ -4,7 +4,7 @@ import unittest
 import tempfile
 
 
-class BiscuitTestCase(unittest.TestCase):
+class HomeTestCase(unittest.TestCase):
 
     def setUp(self):
         biscuit.app.testing = True
