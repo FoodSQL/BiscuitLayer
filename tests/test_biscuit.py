@@ -16,7 +16,6 @@ class BiscuitTestCase(unittest.TestCase):
 
     def test_home_response(self):
         response = self.app.get('/')
-        print(response)
         assert b'Invalid page' in response.data
         self.assertEqual(response.status_code, 403)
 
