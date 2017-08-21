@@ -1,5 +1,8 @@
 MANIFEST.in
+setup.cfg
 setup.py
+biscuit/__init__.py
+biscuit/biscuit.py
 biscuit.egg-info/PKG-INFO
 biscuit.egg-info/SOURCES.txt
 biscuit.egg-info/dependency_links.txt
