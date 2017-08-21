@@ -1,2 +1,3 @@
 graft biscuit/templates
 graft biscuit/static
+graft biscuit/model
