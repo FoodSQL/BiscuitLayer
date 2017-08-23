@@ -1,2 +1,7 @@
-graft biscuit/templates
-graft biscuit/static
+recursive-include biscuit/templates *
+recursive-include biscuit/static *
+recursive-include biscuit/model *
+recursive-include biscuit/util *
+
+recursive-include tests/model *
+recursive-include tests/mock *
