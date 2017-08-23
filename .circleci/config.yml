@@ -24,7 +24,7 @@ jobs:
 
       - run:
           name: install dependencies
-          command: "pip install -e ."
+          command: "sudo pip install -e ."
 
 
       # run tests!
