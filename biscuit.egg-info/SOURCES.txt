@@ -6,7 +6,16 @@ biscuit/biscuit.py
 biscuit.egg-info/PKG-INFO
 biscuit.egg-info/SOURCES.txt
 biscuit.egg-info/dependency_links.txt
+biscuit.egg-info/not-zip-safe
 biscuit.egg-info/requires.txt
 biscuit.egg-info/top_level.txt
 biscuit/model/user.py
+biscuit/model/__pycache__/user.cpython-35.pyc
+biscuit/util/connection_helper.py
+biscuit/util/json_format.py
+biscuit/util/__pycache__/connection_helper.cpython-35.pyc
+biscuit/util/__pycache__/json_format.cpython-35.pyc
 tests/mock/user_mock.py
+tests/mock/__pycache__/user_mock.cpython-35.pyc
+tests/model/test_user.py
+tests/model/__pycache__/test_user.cpython-35-PYTEST.pyc

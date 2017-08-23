@@ -1,4 +1,8 @@
 from flask import Flask, request, jsonify
+# from tests.mock.user_mock import User_Mock
+from biscuit.util.json_format import user_json
+from biscuit.util.connection_helper import ConnectionHelper
+from biscuit.model.user import User
 
 
 app = Flask(__name__)
@@ -6,7 +10,8 @@ app = Flask(__name__)
 
 def create_user(name, email, password, birthdate):
     # wrapper used for mocking
-    return User(name, email, password, birthdate)
+    conn = ConnectionHelper()
+    return User(conn, name, email, password, birthdate)
 
 @app.route('/')
 def home():
@@ -16,16 +21,16 @@ def home():
 @app.route('/user', methods=['POST'])
 def user():
     if request.method == 'POST':
-        print(request.json['name'])
-        name = request.json['name']
-        email = request.json['email']
-        password = request.json['password']
-        birthdate = request.json['birthdate']
-        print(birthdate, email, name, password)
+        _json = request.get_json()
+        print(_json)
+        name = _json['name']
+        email = _json['email']
+        password = _json['password']
+        birthdate = _json['birthdate']
 
-        user = create_user(name, email, password, birthdate)
+        _user = create_user(name, email, password, birthdate)
 
-        return jsonify(user), 200
+        return user_json(_user), 200
 
     else:
         return 'Bad request', 400

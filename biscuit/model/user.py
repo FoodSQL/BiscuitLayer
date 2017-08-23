@@ -1,10 +1,10 @@
 class User():
 
-    self._id = None
-    self.name = None
-    self.email = None
-    self.password = None
-    self.birthdate = None
+    _id = None
+    name = None
+    email = None
+    password = None
+    birthdate = None
 
     def __init__(self, _id):
         # TODO: Implement API
