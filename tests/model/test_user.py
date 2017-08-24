@@ -13,17 +13,11 @@ def fake_user(name, email, password, birthdate):
 
 class UserTestCase(unittest.TestCase):
 
-    def setUp(self):
+    @patch('biscuit.biscuit.create_user', side_effect=fake_user)
+    def setUp(self, mock):
         biscuit.app.testing = True
         self.app = biscuit.app.test_client()
-
-    def tearDown(self):
-        # mostly used for closing files and db
-        pass
-
-    @patch('biscuit.biscuit.create_user', side_effect=fake_user)
-    def test_create_response(self, mock):
-        response = self.app.post(
+        self.response = self.app.post(
             '/user',
             data=json.dumps({
                 'name': 'Goku',
@@ -33,7 +27,20 @@ class UserTestCase(unittest.TestCase):
             }),
             content_type='application/json'
         )
-        self.assertEqual(response.status_code, 200)
+
+    def tearDown(self):
+        # mostly used for closing files and db
+        pass
+
+    def test_was_success(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_has_keys(self):
+        _json = json.loads(self.response.get_data(as_text=True))
+        assert 'Goku' in _json['name']
+        assert 'goku@dragonball.com' in _json['email']
+        assert 'freeza_sux123' in _json['password']
+        assert '30/04/1994' in _json['birthdate']
 
 
 if __name__ == '__main__':
