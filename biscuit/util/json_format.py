@@ -7,4 +7,4 @@ def user_json(user):
         'email': user.email,
         'password': user.password,
         'birthdate': user.birthdate
-    })
+    }, content_type='application/json')

@@ -22,7 +22,6 @@ def home():
 def user():
     if request.method == 'POST':
         _json = request.get_json()
-        print(_json)
         name = _json['name']
         email = _json['email']
         password = _json['password']
