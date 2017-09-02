@@ -12,6 +12,10 @@ jobs:
         enviroment:
           FLASK_CONFIG: testing
 
+      - image: mysql
+        enviroment:
+          - MYSQL_ROOT_PASSWORD=1234
+
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -26,6 +30,13 @@ jobs:
           name: install dependencies
           command: "sudo pip install -e ."
 
+
+      -run:
+          name: setup db
+          command: |
+            git clone https://github.com/FoodSQL/MySouffle
+            cd MySouffle
+            mysql -uroot -p1234 my_chef < schema00.sql
 
       # run tests!
       - run:
