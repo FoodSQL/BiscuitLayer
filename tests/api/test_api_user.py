@@ -15,6 +15,7 @@ def get_fake_user(email):
     return User_Mock(None, 'Gohan', email, 'iliketurtles123', '30/04/1994')
 
 
+
 class APILoginUserTestCase(unittest.TestCase):
 
 
@@ -96,7 +97,6 @@ class APICreateUserTestCase(unittest.TestCase):
         _json = json.loads(self.response.get_data(as_text=True))
         assert 'Goku' in _json['name']
         assert 'goku@dragonball.com' in _json['email']
-        assert '30/04/1994' in _json['birthdate']
 
 
 if __name__ == '__main__':
