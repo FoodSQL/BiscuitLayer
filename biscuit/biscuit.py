@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-# from tests.mock.user_mock import User_Mock
 from biscuit.util.json_format import user_json
 from biscuit.util.connection_helper import ConnectionHelper
 from biscuit.model.user import User
@@ -22,7 +21,6 @@ def home():
 def user():
     if request.method == 'POST':
         _json = request.get_json()
-        print(_json)
         name = _json['name']
         email = _json['email']
         password = _json['password']
