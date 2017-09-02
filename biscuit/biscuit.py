@@ -10,6 +10,7 @@ app = Flask(__name__)
 def create_user(name, email, password, birthdate):
     # wrapper used for mocking
     conn = ConnectionHelper()
+    print(conn)
     return User.create_user(conn, name, email, password, birthdate)
 
 
@@ -46,7 +47,7 @@ def user():
         name = _json['name']
         email = _json['email']
         password = _json['password']
-        birthdate = _json['birthdate']
+        birthdate = None
         _user = create_user(name, email, password, birthdate)
 
         return safe_user_json(_user), 200

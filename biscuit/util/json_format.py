@@ -14,5 +14,4 @@ def safe_user_json(user):
         'id': user._id,
         'name': user.name,
         'email': user.email,
-        'birthdate': user.birthdate
     })

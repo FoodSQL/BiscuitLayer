@@ -10,16 +10,21 @@ from mock import patch, Mock
 
 class GetUserTestCase(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         biscuit.app.testing = True
-        self.app = biscuit.app.test_client()
-        self.conn = ConnectionHelper()
-        self.conn.run('''
+        cls.app = biscuit.app.test_client()
+        cls.conn = ConnectionHelper()
+        cls.conn.run('DELETE FROM _User WHERE email="vegeta@dragonball.com"')
+        cls.conn.run('''
             INSERT INTO
                 _User(_name, login, _password, email)
             VALUES ("Vegeta", "vegeta@dragonball.com", "goku.sux123", "01/04/1992")
         ''')
-        self.user = User.get_user(self.conn, 'vegeta@dragonball.com')
+        cls.user = User.get_user(cls.conn, 'vegeta@dragonball.com')
+
+    def setUp(self):
+        pass
 
     def tearDown(self):
         pass
@@ -39,19 +44,26 @@ class GetUserTestCase(unittest.TestCase):
     def test_has_id(self):
         assert self.user._id is not None
 
+
 class CreateUserTestCase(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         biscuit.app.testing = True
-        self.app = biscuit.app.test_client()
-        self.conn = ConnectionHelper()
-        self.user = User.create_user(
-            self.conn,
+        cls.app = biscuit.app.test_client()
+        cls.conn = ConnectionHelper()
+        cls.conn.run('DELETE FROM _User WHERE email="goku@dragonball.com"')
+        cls.user = User.create_user(
+            cls.conn,
             'Goku',
             'goku@dragonball.com',
             'freeza.sux123',
             '30/04/1994'
         )
+
+    def setUp(self):
+        pass
+
 
     def tearDown(self):
         pass
@@ -67,9 +79,6 @@ class CreateUserTestCase(unittest.TestCase):
 
     def test_email_is_correct(self):
         assert 'goku@dragonball.com' in self.user.email
-
-    def test_has_id(self):
-        assert self.user._id is not None
 
     def test_is_in_db(self):
         ans = self.conn.run(

@@ -52,7 +52,7 @@ class User():
 
     def insert_user(self, conn, name, email, password, birthdate):
         # Throws pymysql.err.IntegrityError if trying to create existing user
-        query = "INSERT INTO _User(_name, login, _password, email)" \
+        query = "INSERT INTO _User(_name, login, _password, email)" +\
                 "VALUES (%s, %s, %s, %s)"
         args = (name, email, password, email)
-        conn.run(query, args)
+        print(conn.run(query, args))

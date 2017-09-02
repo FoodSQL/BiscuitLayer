@@ -1,3 +1,16 @@
 {
+  "tests/api/test_api_user.py::APICreateUserTestCase::test_has_keys": true,
+  "tests/model/test_user.py::CreateUserTestCase::test_cannot_recreate": true,
+  "tests/model/test_user.py::CreateUserTestCase::test_email_is_correct": true,
+  "tests/model/test_user.py::CreateUserTestCase::test_exists": true,
+  "tests/model/test_user.py::CreateUserTestCase::test_has_id": true,
+  "tests/model/test_user.py::CreateUserTestCase::test_is_in_db": true,
+  "tests/model/test_user.py::CreateUserTestCase::test_name_is_correct": true,
+  "tests/model/test_user.py::CreateUserTestCase::test_password_is_correct": true,
+  "tests/model/test_user.py::GetUserTestCase::test_email_is_correct": true,
+  "tests/model/test_user.py::GetUserTestCase::test_exists": true,
+  "tests/model/test_user.py::GetUserTestCase::test_has_id": true,
+  "tests/model/test_user.py::GetUserTestCase::test_name_is_correct": true,
+  "tests/model/test_user.py::GetUserTestCase::test_password_is_correct": true,
   "tests/model/test_user.py::UserTestCase": true
 }
