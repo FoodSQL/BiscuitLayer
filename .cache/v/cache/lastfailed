@@ -1,4 +1,3 @@
 {
-  "tests/model/test_user.py::UserTestCase": true,
-  "tests/test_home.py::HomeTestCase": true
+  "tests/model/test_user.py::UserTestCase": true
 }

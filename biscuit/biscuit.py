@@ -10,7 +10,7 @@ app = Flask(__name__)
 def create_user(name, email, password, birthdate):
     # wrapper used for mocking
     conn = ConnectionHelper()
-    return User(conn, name, email, password, birthdate)
+    return User.create_user(conn, name, email, password, birthdate)
 
 @app.route('/')
 def home():

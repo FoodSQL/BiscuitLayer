@@ -1,3 +1,6 @@
+import sys
+
+
 class User():
 
     _id = None
@@ -6,15 +9,26 @@ class User():
     password = None
     birthdate = None
 
-    def create_user(self, conn, name, email, password, birthdate):
+    def __init__(self, name, email, password, birthdate):
+        # NEVER call this
         self.name = name
         self.email = email
-        self.password = email
+        self.password = password
         self.birthdate = birthdate
-        self.insert_user(conn, name, email, password, birthdate)
 
-    def get_user(self, conn, email):
-        self.query_with_id (conn, email)
+
+    @classmethod
+    def create_user(cls, conn, name, email, password, birthdate):
+        # Constructor (cls param is used for that)
+        user = User(name, email, password, birthdate)
+        user.insert_user(conn, name, email, password, birthdate)
+        return user
+
+
+    @classmethod
+    def get_user(cls, conn, email):
+        # Constructor (cls param is used for that)
+        self.query_with_id(conn, email)
 
 
     def query_with_id(self, conn, email):
@@ -22,29 +36,17 @@ class User():
         try:
             cursor = conn.cursor()
             cursor.execute(query, email)
-
             row = cursor.fetchone()
-
             print (row)
 
-        except Error as e:
+        except Exception as e:
             print(e)
 
         finally:
             cursor.close()
 
     def insert_user(self, conn, name, email, password, birthdate):
-        query = "INSERT INTO _User(_name, login, _password, email, birthdate)" \
-                "VALUES (%s, %s, %s, %s, %s)"
-        args = (name, email, password, email, birthdate)
-
-        try:
-            cursor = conn.cursor()
-            cursor.execute(query, args)
-            conn.commit()
-
-        except Error as e:
-            print(e)
-
-        finally:
-            cursor.close()
+        query = "INSERT INTO _User(_name, login, _password, email)" \
+                "VALUES (%s, %s, %s, %s)"
+        args = (name, email, password, email)
+        conn.run(query, args)
