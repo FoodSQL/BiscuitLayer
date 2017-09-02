@@ -8,3 +8,11 @@ def user_json(user):
         'password': user.password,
         'birthdate': user.birthdate
     })
+
+def safe_user_json(user):
+    return dumps({
+        'id': user._id,
+        'name': user.name,
+        'email': user.email,
+        'birthdate': user.birthdate
+    })
