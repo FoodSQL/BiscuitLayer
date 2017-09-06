@@ -20,6 +20,17 @@ def get_user(email):
     return User.get_user(conn, email)
 
 
+def get_user_by_id(user_id):
+    conn = ConnectionHelper()
+    return User.get_user_by_id(conn, user_id)
+
+
+@app.route('/pantry/:user_id', methods=['GET'])
+def get_pantries(user_id):
+    if request.method == 'GET':
+        user =
+
+
 @app.route('/')
 def home():
     return 'Invalid page', 403

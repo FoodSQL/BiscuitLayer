@@ -42,13 +42,34 @@ class User():
         return user
 
 
+    @classmethod
+    def get_user(cls, conn, _id):
+        # Constructor (cls param is used for that)
+        user = User()
+        ans = user.query_with_id(conn, _id)
+        user._id = ans[0]
+        user.name = ans[1]
+        user.email = ans[2]
+        user.password = ans[3]
+        user.login = ans[4]
+        user.birthdate = ans[5]
+        return user
+
+
     def __update_id(self, conn):
         query = 'SELECT id FROM _User WHERE login=%s'
         self._id = conn.run(query, self.login)[0]
 
+
+    def query_with_id(self, conn, _id):
+        query = 'SELECT * FROM _User WHERE id=%s'
+        return conn.run(query, _id)
+
+
     def query_with_email(self, conn, email):
         query = 'SELECT * FROM _User WHERE login=%s'
         return conn.run(query, email)
+
 
     def insert_user(self, conn, name, email, password, birthdate):
         # Throws pymysql.err.IntegrityError if trying to create existing user
