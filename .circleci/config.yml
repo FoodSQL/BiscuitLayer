@@ -17,7 +17,7 @@ jobs:
         enviroment:
         - MYSQL_ROOT_PASSWORD=1234
         command: |
-          apt install git -y
+          apt-get install git
           git clone https://github.com/FoodSQL/MySouffle
           cd MySouffle
           mysql -u root my_chef < schema00.sql
