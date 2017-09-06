@@ -1,22 +1,23 @@
 import sys
-from user import User
+from biscuit.model.user import User
+from biscuit.util.connection_helper import ConnectionHelper
 
 
 class Pantry():
 
     _id = None
-    name = None
+    _name = None
 
-    def __init__(self, name):
+    def __init__(self, _name):
         # NEVER call this
-        self.name = name
+        self._name = _name
 
 
     @classmethod
-    def create_pantry(cls, conn, name):
+    def create_pantry(cls, conn, _name):
         # Constructor (cls param is used for that)
-        pantry = Pantry(name)
-        pantry.insert_pantry(conn, name)
+        pantry = Pantry(_name)
+        pantry.insert_pantry(conn, _name)
         return pantry
 
 
@@ -40,10 +41,10 @@ class Pantry():
         finally:
             cursor.close()
 
-    def insert_pantry(self, conn, name):
-        query = "INSERT INTO _pantry(_name)" \
+    def insert_pantry(self, conn, _name):
+        query = "INSERT INTO pantry(_name)" \
                 "VALUES (%s)"
-        args = (name)
+        args = (_name)
         conn.run(query, args)
 
 

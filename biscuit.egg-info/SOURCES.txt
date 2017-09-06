@@ -14,6 +14,7 @@ biscuit/model/pantry.py
 biscuit/model/pantry2.py
 biscuit/model/user.py
 biscuit/model/__pycache__/ingredient.cpython-36.pyc
+biscuit/model/__pycache__/pantry2.cpython-36.pyc
 biscuit/model/__pycache__/user.cpython-36.pyc
 biscuit/util/connection_helper.py
 biscuit/util/json_format.py
@@ -22,7 +23,9 @@ biscuit/util/__pycache__/json_format.cpython-36.pyc
 tests/mock/user_mock.py
 tests/mock/__pycache__/user_mock.cpython-36.pyc
 tests/model/test_ingredient.py
+tests/model/test_pantry.py
 tests/model/test_user.py
 tests/model/__pycache__/test_ingredient.cpython-36-PYTEST.pyc
+tests/model/__pycache__/test_pantry.cpython-36-PYTEST.pyc
 tests/model/__pycache__/test_user.cpython-35-PYTEST.pyc
 tests/model/__pycache__/test_user.cpython-36-PYTEST.pyc
