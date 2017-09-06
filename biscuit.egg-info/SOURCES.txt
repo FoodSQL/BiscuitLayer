@@ -1,4 +1,5 @@
 MANIFEST.in
+README.md
 setup.cfg
 setup.py
 biscuit/__init__.py
@@ -18,4 +19,5 @@ biscuit/util/__pycache__/json_format.cpython-35.pyc
 tests/mock/user_mock.py
 tests/mock/__pycache__/user_mock.cpython-35.pyc
 tests/model/test_user.py
+tests/model/__pycache__/test_user.cpython-27-PYTEST.pyc
 tests/model/__pycache__/test_user.cpython-35-PYTEST.pyc

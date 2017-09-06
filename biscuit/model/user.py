@@ -43,7 +43,7 @@ class User():
 
 
     @classmethod
-    def get_user(cls, conn, _id):
+    def get_user_by_id(cls, conn, _id):
         # Constructor (cls param is used for that)
         user = User()
         ans = user.query_with_id(conn, _id)

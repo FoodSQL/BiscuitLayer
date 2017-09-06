@@ -13,16 +13,16 @@ jobs:
           FLASK_CONFIG: testing
 
 
-      - image: mysql:latest
-        enviroment:
-          MYSQL_ROOT_PASSWORD: 1234
-          MYSQL_USER: root
-          MYSQL_PASSWORD: 1234
-        command: |
-          apt install git -y
-          git clone https://github.com/FoodSQL/MySouffle
-          cd MySouffle
-          mysql -u root my_chef < schema00.sql
+      # - image: mysql:latest
+      #   enviroment:
+      #     MYSQL_ROOT_PASSWORD: 1234
+      #     MYSQL_USER: root
+      #     MYSQL_PASSWORD: 1234
+      #   command: |
+      #     apt install git -y
+      #     git clone https://github.com/FoodSQL/MySouffle
+      #     cd MySouffle
+      #     mysql -u root my_chef < schema00.sql
 
     working_directory: ~/repo
 
