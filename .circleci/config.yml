@@ -23,7 +23,7 @@ jobs:
           apt install git -y
           git clone https://github.com/FoodSQL/MySouffle
           cd MySouffle
-          mysql -uroot -p1234 my_chef < schema00.sql
+          mysql -u root -p my_chef < schema00.sql
 
     working_directory: ~/repo
 
