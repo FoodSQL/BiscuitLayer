@@ -25,7 +25,7 @@ jobs:
           name: install dependencies
           command: "sudo pip install -e ."
 
-      -run:
+      - run:
          name: setup db
          command: |
            git clone https://github.com/FoodSQL/MySouffle
