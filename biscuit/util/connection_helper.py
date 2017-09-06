@@ -37,9 +37,9 @@ class ConnectionHelper:
 
         finally:
             conn_opt = {
-                'host': host,
-                'user': user,
-                'password': password,
-                'database': database,
+                'host': "localhost",
+                'user': "root",
+                'password': "Derrick1",
+                'database': "my_chef",
             }
             return conn_opt

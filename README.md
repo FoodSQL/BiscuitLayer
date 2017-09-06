@@ -1,7 +1,7 @@
 [![CircleCI](https://circleci.com/gh/FoodSQL/BiscuitLayer.svg?style=svg)](https://circleci.com/gh/FoodSQL/BiscuitLayer)
 # BiscuitLayer
 
-To run the application, first run `pip install -e .`. This should not only install all the necessary dependencies in your machine but also set some necessary enviroment variables. Afterwards, run the following commands:
+To run the application, first run `pip install -e .`. This should not only install all the necessary dependencies in your machine but also set some necessary environment variables. Afterwards, run the following commands:
 
 ```
     export FLASK_APP=biscuit

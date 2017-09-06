@@ -12,6 +12,10 @@ def create_user(name, email, password, birthdate):
     conn = ConnectionHelper()
     return User.create_user(conn, name, email, password, birthdate)
 
+def create_ingredient(_name, price_range):
+    conn = ConnectionHelper()
+    return Ingredient.create_ingredient(conn, _name, price_range)
+    
 @app.route('/')
 def home():
     return 'Invalid page', 403

@@ -33,17 +33,12 @@ class User():
 
     def query_with_id(self, conn, email):
         query = 'SELECT * FROM _user WHERE email = %s'
-        try:
-            cursor = conn.cursor()
-            cursor.execute(query, email)
-            row = cursor.fetchone()
-            print (row)
 
-        except Exception as e:
-            print(e)
+        conn.run(query, email)
+        row = cursor.fetchone()
+        print (row)
 
-        finally:
-            cursor.close()
+
 
     def insert_user(self, conn, name, email, password, birthdate):
         query = "INSERT INTO _User(_name, login, _password, email)" \

@@ -1,3 +1,5 @@
 {
+  "tests/api/test_ingredient_api.py::IngredientTestCase::test_has_keys": true,
+  "tests/api/test_ingredient_api.py::IngredientTestCase::test_was_success": true,
   "tests/model/test_user.py::UserTestCase": true
 }
