@@ -1,3 +1,4 @@
 {
+  "tests/model/test_user.py::CreateUserTestCase::test_has_id": true,
   "tests/model/test_user.py::UserTestCase": true
 }

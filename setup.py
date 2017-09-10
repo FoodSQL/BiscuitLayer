@@ -9,6 +9,7 @@ setup(
     install_requires=[
         'flask',
         'pytest',
+        'PyMySQL',
     ],
     setup_requires=[
         'pytest-runner',

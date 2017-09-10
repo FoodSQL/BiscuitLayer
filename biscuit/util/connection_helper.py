@@ -18,6 +18,7 @@ class ConnectionHelper:
             cursor.execute(query, args)
             result = cursor.fetchone()
 
+        self.connection.commit()
         return result
 
 
