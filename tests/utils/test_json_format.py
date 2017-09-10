@@ -33,7 +33,7 @@ class PantryJSONFormatTestCase(unittest.TestCase):
                 Ingredient_Mock(44, 'Diet Coke', 30982),
             ])
         ]
-        self.json = user_pantries_json(self.user, self.pantries)
+        self.json = json.loads(user_pantries_json(self.user, self.pantries))
 
 
     def tearDown(self):
@@ -41,8 +41,7 @@ class PantryJSONFormatTestCase(unittest.TestCase):
 
 
     def test_outter_json_integrity(self):
-        assert 'Goku' in self.json['name']
-        assert 'goku@dragonball.com.jp' in self.json['email']
+        self.assertEquals(42, self.json['user_id'])
 
 
     def test_pantry_json_integrity(self):
