@@ -3,6 +3,9 @@ from biscuit.util.json_format import *
 from biscuit.util.connection_helper import ConnectionHelper
 from biscuit.model.user import User
 
+import biscuit.model.pantry2
+import biscuit.model.ingredient
+
 
 app = Flask(__name__)
 
@@ -28,16 +31,33 @@ def get_user_by_id(user_id):
     conn = ConnectionHelper()
     return User.get_user_by_id(conn, user_id)
 
+
 def get_pantries(user):
     conn = ConnectionHelper()
-    return
+    return pantry2.get_pantries(conn, user)
 
 
-@app.route('/pantry/:user_id', methods=['GET'])
+def get_ingredient_list():
+    conn = ConnectionHelper()
+    return get_all_ingredients()
+
+
+@app.route('/pantry/<user_id>', methods=['GET'])
 def get_pantries(user_id):
     if request.method == 'GET':
-        user = get_user_by_id(user_id)
+        user = get_user_by_id(int(user_id))
         pantries = get_pantries(user)
+        if len(pantries) > 0:
+            return user_pantries_json(user, pantries), 200
+        else:
+            return 'Pantries not found', 404
+
+
+@app.route('/ingredients', methods=['GET'])
+def get_ingredients():
+    if request.method == 'GET':
+        return ingredients_json(get_ingredient_list()), 200
+
 
 @app.route('/')
 def home():

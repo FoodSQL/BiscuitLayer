@@ -49,8 +49,11 @@ def user_pantries_json(user, pantries):
     return dumps(_json)
 
 
-def ingredients_json(item):
-    return dumps(item_dictionary(item))
+def ingredients_json(items):
+    ingredients = []
+    for item in items:
+        ingredients.append(item_dictionary(item))
+    return dumps({ 'ingredients': ingredients })
 
 
 def new_pantry_json(user, pantry):

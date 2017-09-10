@@ -3,40 +3,40 @@ import json
 import biscuit
 
 from mock import patch, Mock
-from tests.mock.user_mock import User_Mock
+from tests.mock.ingredient_mock import *
 
 
-def fake_ingredient(name, price_range):
-    # Inserting mock mid-application
-    return Ingredient_Mock(None, name, price_range)
+def fake_ingredient_list():
+    return [
+        Ingredient_Mock(42, 'Potato', 3),
+        Ingredient_Mock(77, 'Paprika', 4),
+        Ingredient_Mock(32, 'Papaya', 99),
+        Ingredient_Mock(92, 'Cake', 3),
+        Ingredient_Mock(7,  'Coke', 4),
+        Ingredient_Mock(91, 'Pepsi', 99),
+        Ingredient_Mock(44, 'Diet Coke', 30982),
+    ]
 
 
-class IngredientTestCase(unittest.TestCase):
+class GetIngredientListAPITestCase(unittest.TestCase):
 
-    @patch('biscuit.biscuit.create_ingredient', side_effect=fake_ingredient)
-    def setUp(self, mock):
+    def setUp(self):
         biscuit.app.testing = True
         self.app = biscuit.app.test_client()
-        self.response = self.app.post(
-            '/ingredient',
-            data=json.dumps({
-                '_name': 'Paprika',
-                'price_range': 5
-            }),
-            content_type='application/json'
-        )
 
-    # def tearDown(self):
-    #     # mostly used for closing files and db
-    #     pass
-    #
-    # def test_was_success(self):
-    #     self.assertEqual(self.response.status_code, 200)
+    def tearDown(self):
+        pass
 
-    # def test_has_keys(self):
-    #     _json = json.loads(self.response.get_data(as_text=True))
-    #     assert 'Paprika' in _json['_name']
-    #     assert _json['price_range'] == 5
+    @patch('biscuit.biscuit.get_ingredient_list', side_effect=fake_ingredient_list)
+    def test_was_success(self, mock):
+        response = self.app.get('/ingredients')
+        _json = json.loads(response.get_data(as_text=True))
+
+        self.assertEqual(200, response.status_code)
+        assert 'potato' in _json['ingredients'][0]['item_name'].lower()
+        assert 'paprika' in _json['ingredients'][1]['item_name'].lower()
+        self.assertEqual(42, _json['ingredients'][0]['item_id'])
+        self.assertEqual(77, _json['ingredients'][1]['item_id'])
 
 
 if __name__ == '__main__':

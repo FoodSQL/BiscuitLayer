@@ -3,6 +3,9 @@ from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
 
 
+def get_all_ingredients(conn):
+    pass
+
 class Ingredient():
 
     _id = None
