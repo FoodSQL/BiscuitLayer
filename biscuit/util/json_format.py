@@ -56,9 +56,9 @@ def ingredients_json(items):
     return dumps({ 'ingredients': ingredients })
 
 
-def new_pantry_json(user, pantry):
+def new_pantry_json(user_id, pantry):
     return dumps({
-        'user_id': user._id,
+        'user_id': user_id,
         'pantry_name': pantry._name,
         'pantry_id': pantry._id,
     })

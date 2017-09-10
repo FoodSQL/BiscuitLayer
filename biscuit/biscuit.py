@@ -42,6 +42,64 @@ def get_ingredient_list():
     return get_all_ingredients()
 
 
+def create_pantry(pantry_name, user_id):
+    conn = ConnectionHelper()
+    return pantry2.create_pantry_with_user(pantry_name, user_id)
+
+
+def add_item_to_pantry(pantry_id, item_id, amount, unit):
+    conn = ConnectionHelper()
+    pantry = pantry2.Pantry.get_pantry(conn, pantry_id)
+    pantry.add_item(conn, item_id, amount, unit)
+    return pantry
+
+
+def remove_item_from_pantry(pantry, item_id, amount, unit):
+    conn = ConnectionHelper()
+    pantry.remove_item(conn, item_id, amount, unit)
+    return pantry
+
+
+def get_pantry_by_id(pantry_id):
+    return pantry2.Pantry.get_pantry(ConnectionHelper(), pantry_id)
+
+
+@app.route('/pantry/add_item', methods=['POST'])
+def pantry_add_item():
+    if request.method == 'POST':
+        _json = request.get_json()
+        pantry_id = _json['pantry_id']
+        item_id = _json['item_id']
+        amount = _json['amount']
+        add_item_to_pantry(pantry_id, item_id, amount, 'kg')
+        return _json, 200
+
+
+@app.route('/pantry/remove_item', methods=['POST'])
+def pantry_remove_item():
+    if request.method == 'POST':
+        _json = request.get_json()
+        pantry_id = _json['pantry_id']
+        pantry = get_pantry_by_id(pantry_id)
+
+        for item in _json['items']:
+            item_id = item['item_id']
+            amount = item['amount']
+            remove_item_from_pantry(pantry, item_id, amount, 'kg')
+
+        return _json, 200
+
+
+@app.route('/pantry/new', methods=['POST'])
+def create_pantry():
+    if request.method == 'POST':
+        _json = request.get_json()
+        user_id = _json['user_id']
+        pantry_name = _json['pantry_name']
+        pantry = create_pantry(pantry_name, user_id)
+        return new_pantry_json(user_id, pantry), 200
+
+
 @app.route('/pantry/<user_id>', methods=['GET'])
 def get_pantries(user_id):
     if request.method == 'GET':
