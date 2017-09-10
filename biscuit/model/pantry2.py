@@ -3,6 +3,9 @@ from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
 
 
+def get_pantries(conn, user_id):
+    pass
+
 class Pantry():
 
     _id = None
@@ -28,7 +31,7 @@ class Pantry():
 
 
     def query_with_id(self, conn, id):
-        query = 'SELECT * FROM _pantry WHERE id = %s'
+        query = 'SELECT * FROM Pantry WHERE id = %s'
         try:
             cursor = conn.cursor()
             cursor.execute(query, id)
@@ -42,7 +45,7 @@ class Pantry():
             cursor.close()
 
     def insert_pantry(self, conn, _name):
-        query = "INSERT INTO pantry(_name)" \
+        query = "INSERT INTO Pantry(_name)" \
                 "VALUES (%s)"
         args = (_name)
         conn.run(query, args)

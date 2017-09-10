@@ -30,13 +30,13 @@ class Ingredient():
 
 
     def query_with_id(self, conn, id):
-        query = 'SELECT * FROM ingredient WHERE id = %s'
+        query = 'SELECT * FROM Ingredient WHERE id = %s'
         cursor.run(query, id)
         return row
 
 
     def insert_ingredient(self, conn, _name, price_range):
-        query = "INSERT INTO ingredient(_name, price_range)" \
+        query = "INSERT INTO Ingredient(_name, price_range)" \
                 "VALUES (%s, %s)"
         args = (_name, price_range)
 

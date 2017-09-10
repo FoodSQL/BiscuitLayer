@@ -30,7 +30,7 @@ class CreatePantryTestCase(unittest.TestCase):
 
     def test_is_in_db(self):
         ans = self.conn.run(
-            'SELECT _name FROM pantry WHERE _name="Minha Dispensa"'
+            'SELECT _name FROM Pantry WHERE _name="Minha Dispensa"'
         )
         assert 'Minha Dispensa' in ans
 

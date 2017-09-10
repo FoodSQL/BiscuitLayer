@@ -16,7 +16,7 @@ def create_user(name, email, password, birthdate):
 def create_ingredient(_name, price_range):
     conn = ConnectionHelper()
     return Ingredient.create_ingredient(conn, _name, price_range)
-    
+
 
 def get_user(email):
     # wrapper used for mocking
@@ -28,11 +28,16 @@ def get_user_by_id(user_id):
     conn = ConnectionHelper()
     return User.get_user_by_id(conn, user_id)
 
+def get_pantries(user):
+    conn = ConnectionHelper()
+    return
+
 
 @app.route('/pantry/:user_id', methods=['GET'])
 def get_pantries(user_id):
     if request.method == 'GET':
         user = get_user_by_id(user_id)
+        pantries = get_pantries(user)
 
 @app.route('/')
 def home():

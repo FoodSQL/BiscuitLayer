@@ -1,6 +1,12 @@
 {
   "tests/api/test_ingredient_api.py::IngredientTestCase::test_has_keys": true,
   "tests/api/test_ingredient_api.py::IngredientTestCase::test_was_success": true,
+  "tests/model/test_ingredient.py::CreateIngredientTestCase::test_exists": true,
+  "tests/model/test_ingredient.py::CreateIngredientTestCase::test_is_in_db": true,
+  "tests/model/test_ingredient.py::CreateIngredientTestCase::test_name_is_correct": true,
+  "tests/model/test_ingredient.py::CreateIngredientTestCase::test_price_is_correct": true,
   "tests/model/test_pantry.py::CreatePantryTestCase::test_cannot_recreate": true,
-  "tests/model/test_user.py::UserTestCase": true
+  "tests/model/test_user.py::UserTestCase": true,
+  "tests/utils/test_json_format.py::PantryJSONFormatTestCase::test_outter_json_integrity": true,
+  "tests/utils/test_json_format.py::PantryJSONFormatTestCase::test_pantry_json_integrity": true
 }
