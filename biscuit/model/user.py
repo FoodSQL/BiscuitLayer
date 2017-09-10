@@ -65,7 +65,6 @@ class User():
         query = 'SELECT * FROM _User WHERE id=%s'
         return conn.run(query, _id)
 
-
     def query_with_email(self, conn, email):
         query = 'SELECT * FROM _User WHERE login=%s'
         return conn.run(query, email)

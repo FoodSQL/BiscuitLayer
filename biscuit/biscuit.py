@@ -13,6 +13,10 @@ def create_user(name, email, password, birthdate):
     print(conn)
     return User.create_user(conn, name, email, password, birthdate)
 
+def create_ingredient(_name, price_range):
+    conn = ConnectionHelper()
+    return Ingredient.create_ingredient(conn, _name, price_range)
+    
 
 def get_user(email):
     # wrapper used for mocking
@@ -29,7 +33,6 @@ def get_user_by_id(user_id):
 def get_pantries(user_id):
     if request.method == 'GET':
         user = get_user_by_id(user_id)
-
 
 @app.route('/')
 def home():

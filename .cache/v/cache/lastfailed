@@ -1,4 +1,6 @@
 {
-  "tests/model/test_user.py::CreateUserTestCase::test_has_id": true,
+  "tests/api/test_ingredient_api.py::IngredientTestCase::test_has_keys": true,
+  "tests/api/test_ingredient_api.py::IngredientTestCase::test_was_success": true,
+  "tests/model/test_pantry.py::CreatePantryTestCase::test_cannot_recreate": true,
   "tests/model/test_user.py::UserTestCase": true
 }
