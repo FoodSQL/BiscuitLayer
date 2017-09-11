@@ -71,9 +71,31 @@ class CreatePantryTestCase(unittest.TestCase):
         assert self.ingredient._id == ans[0]
 
 
-    def test_get_pantry(self):
-        pantry = Pantry.get_pantries(self.conn, self.user._id)
-        assert pantry._id == 1
+    # def test_get_pantry(self):
+    #     pantry = Pantry.get_pantries(self.conn, self.user._id)
+    #     assert pantry._id == 1
 
+    def test_list_exists(self):
+        pantries = Pantry.get_pantries(self.conn, self.user._id)
+        assert pantries is not None
+
+    def test_list_has_pantry(self):
+        pantries = Pantry.get_pantries(self.conn, self.user._id)
+        assert self.pantry._name in pantries[0]._name
+
+    def test_remove_ingredient(self):
+        self.pantry.remove_ingredient(self.conn, self.ingredient)
+        for i in self.pantry.ingredients:
+            assert self.ingredient._name not in i._name
+
+    def test_remove_ingredient_from_db(self):
+        ans = self.conn.run(
+        """
+        SELECT * FROM ingredient_pantry
+        WHERE id_pantry = %s
+        AND id_ingredient = %s
+        """ , (self.pantry._id, self.ingredient._id)
+        )
+        assert ans is None
 if __name__ == '__main__':
     unittest.main()

@@ -29,14 +29,25 @@ class Pantry():
     def get_pantries(cls, conn, _id):
         # Constructor (cls param is used for that)
         pantry_info = cls.query_with_id(cls, conn, _id)
-        name = pantry_info[1]
-        pantry = Pantry(name)
-        pantry.update_id(conn)
-        return pantry
+        lista = []
+        for i in pantry_info:
+            name = i[3]
+            _id = i[2]
+            pantry = Pantry(name)
+            pantry._id = _id
+            lista.append(pantry)
+        return lista
 
     def add_ingredient(self, conn, ingredient):
         self.associate_ingredient(conn, ingredient._id)
         self.ingredients.append(ingredient)
+
+    def remove_ingredient(self, conn, ingredient):
+        query = "DELETE FROM ingredient_pantry WHERE id_ingredient = %s"
+        conn.run(query, ingredient._id)
+        for i in self.ingredients:
+            if i._name == ingredient._name:
+                self.ingredients.remove(i)
 
     def associate_ingredient(self, conn, ingredient_id):
         query = "INSERT INTO ingredient_pantry (id_ingredient, id_pantry)" \
@@ -47,9 +58,8 @@ class Pantry():
 
     def query_with_id(self, conn, _id):
         query = 'SELECT * FROM User_Pantry up JOIN pantry p ON id_pantry = id WHERE id_user = %s'
-        row = conn.run(query, _id)
-        #print (row)
-        # return row
+        row = conn.runall(query, _id)
+        return row
 
 
     def insert_pantry(self, conn, _name):
