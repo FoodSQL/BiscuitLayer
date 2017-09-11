@@ -14,6 +14,7 @@ class CreatePantryTestCase(unittest.TestCase):
         biscuit.app.testing = True
         self.app = biscuit.app.test_client()
         self.conn = ConnectionHelper()
+        self.conn.run('DELETE FROM User_pantry WHERE id_user=163;')
         self.conn.run('DELETE FROM _User WHERE login="vegeta@dragonball.com";')
         self.conn.run('''
             INSERT INTO
@@ -34,19 +35,19 @@ class CreatePantryTestCase(unittest.TestCase):
     def test_exists(self):
         assert self.pantry is not None
 
-    # def test_name_is_correct(self):
-    #     assert 'Minha Dispensa' in self.pantry._name
+    def test_name_is_correct(self):
+        assert 'Minha Dispensa' in self.pantry._name
+
     #
-    # #
-    # def test_is_in_db(self):
-    #     ans = self.conn.run(
-    #         'SELECT _name FROM pantry WHERE _name="Minha Dispensa"'
-    #     )
-    #     assert 'Minha Dispensa' in ans
-    #
-    # def test_get_pantry(self):
-    #     pantry = Pantry.get_pantry(self.conn, 1)
-    #     assert pantry._id == 1
+    def test_is_in_db(self):
+        ans = self.conn.run(
+            'SELECT _name FROM pantry WHERE _name="Minha Dispensa 2"'
+        )
+        assert 'Minha Dispensa 2' in ans
+
+    def test_get_pantry(self):
+        pantry = Pantry.get_pantry(self.conn, 1)
+        assert pantry._id == 1
 
 if __name__ == '__main__':
     unittest.main()

@@ -7,7 +7,8 @@ from biscuit.model.ingredient import Ingredient
 from biscuit.util.connection_helper import ConnectionHelper
 from mock import patch, Mock
 
-class CreateIngredientTestCase(unittest.TestCase):
+class CreateIngredientTestCase(
+unittest.TestCase):
 
     def setUp(self):
         biscuit.app.testing = True
