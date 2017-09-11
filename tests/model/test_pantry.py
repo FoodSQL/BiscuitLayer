@@ -71,9 +71,9 @@ class CreatePantryTestCase(unittest.TestCase):
         assert self.ingredient._id == ans[0]
 
 
-    # def test_get_pantry(self):
-    #     pantry = Pantry.get_pantries(self.conn, self.user._id)
-    #     assert pantry._id == 1
+    def test_get_pantry(self):
+        pantry = Pantry.get_pantries(self.conn, self.user._id)
+        assert pantry._id == 1
 
 if __name__ == '__main__':
     unittest.main()
