@@ -37,11 +37,3 @@ class Ingredient():
         query = 'SELECT * FROM ingredient WHERE id = %s'
         row = conn.run(query, _id)
         return row
-
-
-    # def insert_ingredient(self, conn, _name, price_range):
-    #     query = "INSERT INTO ingredient(_name, price_range)" \
-    #             "VALUES (%s, %s)"
-    #     args = (_name, price_range)
-    #
-    #     conn.run(query, args)

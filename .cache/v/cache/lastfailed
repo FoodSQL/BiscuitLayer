@@ -1,1 +1,3 @@
-{}
+{
+  "tests/model/test_pantry.py::CreatePantryTestCase::test_get_pantry": true
+}

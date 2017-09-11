@@ -17,13 +17,16 @@ class ConnectionHelper:
         with self.connection.cursor() as cursor:
             cursor.execute(query, args)
             result = cursor.fetchone()
-
+        self.connection.commit()
         return result
 
-    # def fetchall(self):
-    #     with self.connection.cursor() as cursor:
-    #         result = cursor.fetchall()
-    #         return result
+    def runall(self, query, args=None):
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, args)
+            result = cursor.fetchall()
+        self.connection.commit()
+        return result
+
 
     def __get_connection_options():
         database = 'my_chef'

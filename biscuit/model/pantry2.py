@@ -7,6 +7,7 @@ class Pantry():
 
     _id = None
     _name = None
+    ingredients = []
 
     def __init__(self, _name):
         # NEVER call this
@@ -25,7 +26,7 @@ class Pantry():
 
 
     @classmethod
-    def get_pantry(cls, conn, _id):
+    def get_pantries(cls, conn, _id):
         # Constructor (cls param is used for that)
         pantry_info = cls.query_with_id(cls, conn, _id)
         name = pantry_info[1]
@@ -33,11 +34,23 @@ class Pantry():
         pantry.update_id(conn)
         return pantry
 
+    def add_ingredient(self, conn, ingredient):
+        self.associate_ingredient(conn, ingredient._id)
+        self.ingredients.append(ingredient)
+
+    def associate_ingredient(self, conn, ingredient_id):
+        query = "INSERT INTO ingredient_pantry (id_ingredient, id_pantry)" \
+                "VALUES (%s, %s)"
+        args = (ingredient_id, self._id)
+        conn.run(query, args)
+
 
     def query_with_id(self, conn, _id):
-        query = 'SELECT * FROM pantry WHERE id = %s'
+        query = 'SELECT * FROM User_Pantry up JOIN pantry p ON id_pantry = id WHERE id_user = %s'
         row = conn.run(query, _id)
-        return row
+        #print (row)
+        # return row
+
 
     def insert_pantry(self, conn, _name):
         query = "INSERT INTO pantry(_name)" \
@@ -48,7 +61,6 @@ class Pantry():
 
     def update_id(self, conn):
         query = 'SELECT id FROM Pantry WHERE _name=%s'
-        print(conn.run(query, self._name))
         self._id = conn.run(query, self._name)[0]
 
 
