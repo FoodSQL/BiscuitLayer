@@ -70,3 +70,32 @@ def pantry_add_item(pantry):
 
 def pantry_remove_item(pantry):
     return dumps(pantry_dictionary(pantry))
+
+
+def ingredient_dictionary(ingredient):
+    return {
+        'ingredient_id': ingredient._id,
+        'ingredient_name': ingredient._name,  # TODO: check _
+    }
+
+
+def recipe_dictionary(recipe):
+    res = {
+        'recipe_id': recipe._id,
+        'recipe_name': recipe._name,  # TODO: check _
+        'recipe_ingredients': []
+    }
+    for ingredient in recipe.ingredients:
+        res['recipe_ingredients'].append(ingredient_dictionary(ingredient))
+    return res
+
+def possible_recipes_json(recipes, pantry_id):
+    res = {
+        'pantry_id': pantry_id,
+        'recipes': [],
+    }
+
+    for recipe in recipes:
+        res['recipes'].append(recipe_dictionary(recipe))
+
+    return dumps(res)

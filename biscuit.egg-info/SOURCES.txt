@@ -22,9 +22,11 @@ biscuit/util/__pycache__/connection_helper.cpython-35.pyc
 biscuit/util/__pycache__/json_format.cpython-35.pyc
 tests/mock/ingredient_mock.py
 tests/mock/pantry_mock.py
+tests/mock/recipe_mock.py
 tests/mock/user_mock.py
 tests/mock/__pycache__/ingredient_mock.cpython-35.pyc
 tests/mock/__pycache__/pantry_mock.cpython-35.pyc
+tests/mock/__pycache__/recipe_mock.cpython-35.pyc
 tests/mock/__pycache__/user_mock.cpython-35.pyc
 tests/model/test_ingredient.py
 tests/model/test_pantry.py

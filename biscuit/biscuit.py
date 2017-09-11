@@ -64,6 +64,17 @@ def get_pantry_by_id(pantry_id):
     return pantry2.Pantry.get_pantry(ConnectionHelper(), pantry_id)
 
 
+def fetch_recipes(pantry_id):
+
+
+
+@app.route('/recipes/<pantry_id>', methods=['GET'])
+def get_possible_recipes(pantry_id):
+    if request.method == 'GET':
+        recipes = fetch_recipes(int(pantry_id))
+        return possible_recipes_json(recipes, pantry_id), 200
+
+
 @app.route('/pantry/add_item', methods=['POST'])
 def pantry_add_item():
     if request.method == 'POST':
@@ -97,7 +108,7 @@ def create_pantry():
         user_id = _json['user_id']
         pantry_name = _json['pantry_name']
         pantry = create_pantry(pantry_name, user_id)
-        return new_pantry_json(user_id, pantry), 200
+        return new_pantry_json(user_id, pantry), 200  # Should have been 201
 
 
 @app.route('/pantry/<user_id>', methods=['GET'])
@@ -105,6 +116,7 @@ def get_pantries(user_id):
     if request.method == 'GET':
         user = get_user_by_id(int(user_id))
         pantries = get_pantries(user)
+
         if len(pantries) > 0:
             return user_pantries_json(user, pantries), 200
         else:
@@ -147,4 +159,4 @@ def user():
         birthdate = None
         _user = create_user(name, email, password, birthdate)
 
-        return safe_user_json(_user), 200
+        return safe_user_json(_user), 200  # should have been 200 (created)
