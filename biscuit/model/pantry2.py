@@ -11,56 +11,50 @@ class Pantry():
     def __init__(self, _name):
         # NEVER call this
         self._name = _name
+        self._id = None
 
 
     @classmethod
-    def create_pantry(cls, conn, _name):
+    def create_pantry(cls, conn, pantry_name, user_id):
         # Constructor (cls param is used for that)
-        pantry = Pantry(_name)
-        pantry.insert_pantry(conn, _name)
+        row = cls.insert_pantry(cls, conn, pantry_name)
+        pantry = Pantry(pantry_name)
+        pantry.update_id(conn)
+        cls.associate_pantry(cls, conn, pantry._id, user_id)
         return pantry
 
 
     @classmethod
-    def get_pantry(cls, conn, id):
+    def get_pantry(cls, conn, _id):
         # Constructor (cls param is used for that)
-        self.query_with_id(conn, id)
+        pantry_info = cls.query_with_id(cls, conn, _id)
+        name = pantry_info[1]
+        pantry = Pantry(name)
+        pantry.update_id(conn)
+        return pantry
 
 
-    def query_with_id(self, conn, id):
-        query = 'SELECT * FROM _pantry WHERE id = %s'
-        try:
-            cursor = conn.cursor()
-            cursor.execute(query, id)
-            row = cursor.fetchone()
-            print (row)
-
-        except Exception as e:
-            print(e)
-
-        finally:
-            cursor.close()
+    def query_with_id(self, conn, _id):
+        query = 'SELECT * FROM pantry WHERE id = %s'
+        row = conn.run(query, _id)
+        return row
 
     def insert_pantry(self, conn, _name):
         query = "INSERT INTO pantry(_name)" \
                 "VALUES (%s)"
         args = (_name)
-        conn.run(query, args)
+        last = conn.run(query, args)
+        print(last)
+
+    def update_id(self, conn):
+        query = 'SELECT id FROM Pantry WHERE _name=%s'
+        print(conn.run(query, self._name))
+        self._id = conn.run(query, self._name)[0]
 
 
-    def associate_pantry(self, conn, id_panrty, email):
-        user = User(conn, email)
+    def associate_pantry(self, conn, id_pantry, user_id):
         query = "INSERT INTO User_Pantry(id_user, id_pantry)" \
                 "VALUES (%s, %s)"
-        args = (user._id, id_pantry)
+        args = (user_id, id_pantry)
 
-        try:
-            cursor = conn.cursor()
-            cursor.execute(query, args)
-            conn.commit()
-
-        except Error as e:
-            print(e)
-
-        finally:
-            cursor.close()
+        conn.run(query, args)

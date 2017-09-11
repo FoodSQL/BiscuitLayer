@@ -53,5 +53,13 @@ class CreateUserTestCase(unittest.TestCase):
                 '30/04/1994'
             )
 
+    def test_get_user(self):
+        user = User.get_user(self.conn, self.user.email)
+        assert user.email in self.user.email
+
+    def test_get_user_by_id(self):
+        user = User.get_user_by_id(self.conn, self.user._id)
+        assert user._id == self.user._id
+
 if __name__ == '__main__':
     unittest.main()

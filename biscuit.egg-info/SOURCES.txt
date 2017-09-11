@@ -10,7 +10,6 @@ biscuit.egg-info/not-zip-safe
 biscuit.egg-info/requires.txt
 biscuit.egg-info/top_level.txt
 biscuit/model/ingredient.py
-biscuit/model/pantry.py
 biscuit/model/pantry2.py
 biscuit/model/user.py
 biscuit/model/__pycache__/ingredient.cpython-36.pyc

@@ -20,6 +20,10 @@ class ConnectionHelper:
 
         return result
 
+    # def fetchall(self):
+    #     with self.connection.cursor() as cursor:
+    #         result = cursor.fetchall()
+    #         return result
 
     def __get_connection_options():
         database = 'my_chef'

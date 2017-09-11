@@ -21,7 +21,12 @@ class User():
     def create_user(cls, conn, name, email, password, birthdate):
         # Constructor (cls param is used for that)
         user = User(name, email, password, birthdate)
+<<<<<<< Updated upstream
         user.insert_user(conn, name, email, password, birthdate)
+=======
+        user.insert_user(conn, name,     email, password, birthdate)
+        user.__update_id(conn)
+>>>>>>> Stashed changes
         return user
 
 
