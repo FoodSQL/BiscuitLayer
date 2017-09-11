@@ -30,7 +30,6 @@ def fake_get_pantries(user):
     ]
 
 
-
 class GetUserPantriesAPITestCase(unittest.TestCase):
 
     def setUp(self):

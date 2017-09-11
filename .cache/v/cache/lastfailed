@@ -1,4 +1,6 @@
 {
+  "tests/api/test_api_user.py::UpdateUserAPITestCase::test_basic_json_integrity": true,
+  "tests/api/test_api_user.py::UpdateUserAPITestCase::test_was_success_status": true,
   "tests/api/test_ingredient_api.py::IngredientTestCase::test_has_keys": true,
   "tests/api/test_ingredient_api.py::IngredientTestCase::test_was_success": true,
   "tests/model/test_ingredient.py::CreateIngredientTestCase::test_cannot_recreate": true,

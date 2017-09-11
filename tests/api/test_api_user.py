@@ -15,9 +15,46 @@ def get_fake_user(email):
     return User_Mock(None, 'Gohan', email, 'iliketurtles123', '30/04/1994')
 
 
+def fake_update_user(user_id, user_name, user_email, user_password):
+    user = User_Mock(None, user_name, user_email, user_password, None)
+    user._id = user_id
+    return user
+
+class UpdateUserAPITestCase(unittest.TestCase):
+
+    @patch('biscuit.biscuit.update_user', side_effect=fake_update_user)
+    def setUp(self):
+        biscuit.app.testing = True
+        self.app = biscuit.app.test_client()
+        self.res = self.app.post(
+            '/user/update',
+            data=json.dumps({
+                'user_id': 42,
+                'user_name': 'Freeza',
+                'user_email': 'freeza@dragonball.com',
+                'user_password': 'goku_sux123',
+                'user_birthdate': '30/04/1994',
+            }),
+            content_type='application/json'
+        )
+
+
+    def tearDown(self):
+        pass
+
+
+    def test_was_success_status(self):
+        self.assertEquals(200, int(self.res.status_code))
+
+
+    def test_basic_json_integrity(self):
+        _json = json.loads(self.res.get_data(as_text=True))
+        self.assertEquals(42, int(_json['user_id']))
+        assert 'freeza' in str(_json['user_name']).lower()
+        assert 'freeza@dragonball.com' in str(_json['user_email']).lower()
+
 
 class APILoginUserTestCase(unittest.TestCase):
-
 
     def setUp(self):
         biscuit.app.testing = True
@@ -66,7 +103,6 @@ class APILoginUserTestCase(unittest.TestCase):
 
 
 class APICreateUserTestCase(unittest.TestCase):
-
 
     @patch('biscuit.biscuit.create_user', side_effect=fake_user)
     def setUp(self, mock):

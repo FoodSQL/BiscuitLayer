@@ -5,6 +5,7 @@ from biscuit.model.user import User
 
 import biscuit.model.pantry2
 import biscuit.model.ingredient
+import biscuit.model.recipe
 
 
 app = Flask(__name__)
@@ -65,7 +66,25 @@ def get_pantry_by_id(pantry_id):
 
 
 def fetch_recipes(pantry_id):
+    return recipes.fetch_recipe(ConnectionHelper(), pantry_id)
 
+
+def update_user(user_id, user_name, user_email, user_password):
+    return User.update_user(ConnectionHelper(), user_id, user_name,
+                            user_email, user_password)
+
+
+@app.route('/user/update', methods=['POST'])
+def update_user():
+    if request.method == 'POST':
+        _json = request.get_json()
+        user_id = int(_json['user_id'])
+        user_name = str(_json['user_name'])
+        user_email = str(_json['user_email'])
+        user_password = str(_json['user_password'])
+
+        user = update_user(user_id, user_name, user_email, user_password)
+        return safe_user_json(user), 200
 
 
 @app.route('/recipes/<pantry_id>', methods=['GET'])
