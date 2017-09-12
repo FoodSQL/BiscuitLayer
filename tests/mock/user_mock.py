@@ -13,13 +13,6 @@ class User_Mock():
     password = None
     birthdate = None
 
-    def __init__(self, conn, _id):
-        self._id = _id
-        self.name = NAME
-        self.email = EMAIL
-        self.password = PASSWORD
-        self.birthdate = BIRTHDATE
-
     def __init__(self, conn, name, email, password, birthdate):
         self._id = ID
         self.name = name

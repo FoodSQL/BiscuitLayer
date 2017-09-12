@@ -3,6 +3,9 @@ from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
 
 
+def get_all_ingredients(conn):
+    pass
+
 class Ingredient():
 
     _id = None
@@ -33,7 +36,16 @@ class Ingredient():
         ingredient = Ingredient(name, _id)
         return ingredient
 
-    def query_with_id(self, conn, _id):
-        query = 'SELECT * FROM ingredient WHERE id = %s'
-        row = conn.run(query, _id)
+      
+    def query_with_id(self, conn, id):
+        query = 'SELECT * FROM Ingredient WHERE id = %s'
+        cursor.run(query, id)
         return row
+
+
+    def insert_ingredient(self, conn, _name, price_range):
+        query = "INSERT INTO Ingredient(_name, price_range)" \
+                "VALUES (%s, %s)"
+        args = (_name, price_range)
+
+        conn.run(query, args)

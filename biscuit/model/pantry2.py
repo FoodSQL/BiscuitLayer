@@ -3,12 +3,22 @@ from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
 
 
+def get_pantries(conn, user_id):
+    pass
+
+
+def create_pantry_with_user(conn, pantry_name, user_id):
+    pantry = Pantry.create_pantry(conn, pantry_name)
+    pantry.associate_pantry(conn, user_id)
+    return pantry
+
 class Pantry():
 
     _id = None
     _name = None
     ingredients = []
 
+    
     def __init__(self, _name):
         # NEVER call this
         self._name = _name
@@ -20,7 +30,7 @@ class Pantry():
         # Constructor (cls param is used for that)
         row = cls.insert_pantry(cls, conn, pantry_name)
         pantry = Pantry(pantry_name)
-        pantry.update_id(conn)
+        pantry.__update_id(conn)
         cls.associate_pantry(cls, conn, pantry._id, user_id)
         return pantry
 
@@ -38,9 +48,11 @@ class Pantry():
             lista.append(pantry)
         return lista
 
+      
     def add_ingredient(self, conn, ingredient):
         self.associate_ingredient(conn, ingredient._id)
         self.ingredients.append(ingredient)
+
 
     def remove_ingredient(self, conn, ingredient):
         query = "DELETE FROM ingredient_pantry WHERE id_ingredient = %s"
@@ -62,21 +74,29 @@ class Pantry():
         return row
 
 
+
+    def get_ingredients(self):
+        return self.items
+      
+
+    def add_item(self, item_id, amount, unit):
+        pass
+
     def insert_pantry(self, conn, _name):
-        query = "INSERT INTO pantry(_name)" \
+        query = "INSERT INTO Pantry(_name)" \
                 "VALUES (%s)"
         args = (_name)
         last = conn.run(query, args)
         print(last)
 
-    def update_id(self, conn):
-        query = 'SELECT id FROM Pantry WHERE _name=%s'
+
+    def __update_id(self, conn):
+        query = 'SELECT id FROM Pantry WHERE name=%s'
         self._id = conn.run(query, self._name)[0]
 
-
+        
     def associate_pantry(self, conn, id_pantry, user_id):
         query = "INSERT INTO User_Pantry(id_user, id_pantry)" \
                 "VALUES (%s, %s)"
         args = (user_id, id_pantry)
-
         conn.run(query, args)
