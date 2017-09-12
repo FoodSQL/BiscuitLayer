@@ -36,8 +36,6 @@ def item_dictionary(item):
     _item = {}
     _item['item_id'] = item._id
     _item['item_name'] = item._name
-    _item['item_amount'] = item.amount
-    _item['item_unit'] = STD_UNIT
     return _item
 
 

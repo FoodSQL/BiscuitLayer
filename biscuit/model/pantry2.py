@@ -55,21 +55,21 @@ class Pantry():
 
 
     def remove_ingredient(self, conn, ingredient):
-        query = "DELETE FROM ingredient_pantry WHERE id_ingredient = %s"
+        query = "DELETE FROM Ingredient_Pantry WHERE id_ingredient = %s"
         conn.run(query, ingredient._id)
-        for i in self.ingredients:
-            if i._name == ingredient._name:
+        for i in reversed(self.ingredients):
+            if i._name.strip() in ingredient._name.strip():
                 self.ingredients.remove(i)
 
     def associate_ingredient(self, conn, ingredient_id):
-        query = "INSERT INTO ingredient_pantry (id_ingredient, id_pantry)" \
+        query = "INSERT INTO Ingredient_Pantry (id_ingredient, id_pantry)" \
                 "VALUES (%s, %s)"
         args = (ingredient_id, self._id)
         conn.run(query, args)
 
 
     def query_with_id(self, conn, _id):
-        query = 'SELECT * FROM User_Pantry up JOIN pantry p ON id_pantry = id WHERE id_user = %s'
+        query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON id_pantry = id WHERE id_user = %s'
         row = conn.runall(query, _id)
         return row
 
@@ -91,7 +91,7 @@ class Pantry():
 
 
     def __update_id(self, conn):
-        query = 'SELECT id FROM Pantry WHERE name=%s'
+        query = 'SELECT id FROM Pantry WHERE _name=%s'
         self._id = conn.run(query, self._name)[0]
 
 

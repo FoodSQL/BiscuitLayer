@@ -11,30 +11,36 @@ from mock import patch, Mock
 
 class CreatePantryTestCase(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUp(cls):
         biscuit.app.testing = True
-        self.app = biscuit.app.test_client()
-        self.conn = ConnectionHelper()
-        self.user = User.get_user(self.conn, 'vegeta@dragonball.com')
-        self.conn.run('DELETE FROM User_Pantry WHERE id_user=%s;', self.user._id)
-        self.conn.run('DELETE FROM Ingredient WHERE id=4;')
-        self.conn.run('INSERT INTO Ingredient (id, _name) VALUES (4, "eggs");')
-        self.conn.run('DELETE FROM _User WHERE login="vegeta@dragonball.com";')
-        self.conn.run('''
+        cls.app = biscuit.app.test_client()
+        cls.conn = ConnectionHelper()
+        try:
+            cls.user = User.get_user(cls.conn, 'vegeta1@dragonball.com')
+            cls.conn.run('DELETE FROM User_Pantry WHERE id_user=%s;', cls.user._id)
+            cls.conn.run('DELETE FROM User_Pantry WHERE id_user=%s;', cls.user._id)
+        except:
+            pass
+        cls.conn.run('DELETE FROM Ingredient_Pantry WHERE id_ingredient=4')
+        cls.conn.run('DELETE FROM Ingredient WHERE id=4;')
+        cls.conn.run('INSERT INTO Ingredient (id, _name) VALUES (4, "eggs");')
+        cls.conn.run('DELETE FROM _User WHERE login="vegeta1@dragonball.com";')
+        cls.conn.run('''
             INSERT INTO
                 _User(_name, login, _password, email)
-            VALUES ("Vegeta", "vegeta@dragonball.com",
-                    "goku.sux123", "vegeta@dragonball.com")
+            VALUES ("Vegeta", "vegeta1@dragonball.com",
+                    "goku.sux123", "vegeta1@dragonball.com")
         ''')
-        self.user = User.get_user(self.conn, 'vegeta@dragonball.com')
-        self.ingredient = Ingredient.get_ingredient(
-            self.conn,
+        cls.user = User.get_user(cls.conn, 'vegeta1@dragonball.com')
+        cls.ingredient = Ingredient.get_ingredient(
+            cls.conn,
             4
         )
-        self.pantry = Pantry.create_pantry(
-            self.conn,
+        cls.pantry = Pantry.create_pantry(
+            cls.conn,
             'Minha Dispensa 2',
-            self.user._id
+            cls.user._id
         )
 
     # def tearDown(self):
@@ -49,7 +55,7 @@ class CreatePantryTestCase(unittest.TestCase):
 
     def test_is_in_db(self):
         ans = self.conn.run(
-            'SELECT _name FROM pantry WHERE _name="Minha Dispensa 2"'
+            'SELECT _name FROM Pantry WHERE _name="Minha Dispensa 2"'
         )
         assert 'Minha Dispensa 2' in ans
 
@@ -65,7 +71,9 @@ class CreatePantryTestCase(unittest.TestCase):
         self.pantry.add_ingredient(self.conn, self.ingredient)
         assert self.ingredient._name in self.pantry.ingredients[0]._name
 
+
     def test_ingredient_relation(self):
+        self.pantry.add_ingredient(self.conn, self.ingredient)
         ans = self.conn.run(
             'SELECT id_ingredient FROM Ingredient_Pantry WHERE id_ingredient=%s',
             self.ingredient._id
