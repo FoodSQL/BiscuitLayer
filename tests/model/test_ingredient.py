@@ -28,7 +28,7 @@ unittest.TestCase):
 
     def test_is_in_db(self):
         ans = self.conn.run(
-            'SELECT _name FROM ingredient WHERE _name="eggs"'
+            'SELECT _name FROM Ingredient WHERE _name="eggs"'
         )
         assert 'eggs' in ans
 

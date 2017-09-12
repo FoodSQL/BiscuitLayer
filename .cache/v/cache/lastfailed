@@ -1,7 +1,4 @@
 {
-  "tests/model/test_ingredient.py::CreateIngredientTestCase::test_exists": true,
-  "tests/model/test_ingredient.py::CreateIngredientTestCase::test_is_in_db": true,
-  "tests/model/test_ingredient.py::CreateIngredientTestCase::test_name_is_correct": true,
   "tests/model/test_pantry.py::CreatePantryTestCase::test_exists": true,
   "tests/model/test_pantry.py::CreatePantryTestCase::test_get_pantry": true,
   "tests/model/test_pantry.py::CreatePantryTestCase::test_has_ingredient": true,
