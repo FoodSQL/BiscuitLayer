@@ -17,6 +17,8 @@ class CreatePantryTestCase(unittest.TestCase):
         self.conn = ConnectionHelper()
         self.user = User.get_user(self.conn, 'vegeta@dragonball.com')
         self.conn.run('DELETE FROM User_Pantry WHERE id_user=%s;', self.user._id)
+        self.conn.run('DELELE FROM Ingredient WHERE id=4')
+        self.conn.run('INSERT INTO Ingredient (id, _name) VALUES (4, "eggs")')
         self.conn.run('DELETE FROM _User WHERE login="vegeta@dragonball.com";')
         self.conn.run('''
             INSERT INTO
