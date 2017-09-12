@@ -18,7 +18,7 @@ class Pantry():
     _name = None
     ingredients = []
 
-    
+
     def __init__(self, _name):
         # NEVER call this
         self._name = _name
@@ -48,7 +48,7 @@ class Pantry():
             lista.append(pantry)
         return lista
 
-      
+
     def add_ingredient(self, conn, ingredient):
         self.associate_ingredient(conn, ingredient._id)
         self.ingredients.append(ingredient)
@@ -76,8 +76,8 @@ class Pantry():
 
 
     def get_ingredients(self):
-        return self.items
-      
+        return self.ingredients
+
 
     def add_item(self, item_id, amount, unit):
         pass
@@ -94,7 +94,7 @@ class Pantry():
         query = 'SELECT id FROM Pantry WHERE name=%s'
         self._id = conn.run(query, self._name)[0]
 
-        
+
     def associate_pantry(self, conn, id_pantry, user_id):
         query = "INSERT INTO User_Pantry(id_user, id_pantry)" \
                 "VALUES (%s, %s)"

@@ -16,7 +16,7 @@ class CreatePantryTestCase(unittest.TestCase):
         self.app = biscuit.app.test_client()
         self.conn = ConnectionHelper()
         self.user = User.get_user(self.conn, 'vegeta@dragonball.com')
-        self.conn.run('DELETE FROM User_pantry WHERE id_user=%s;', self.user._id)
+        self.conn.run('DELETE FROM User_Pantry WHERE id_user=%s;', self.user._id)
         self.conn.run('DELETE FROM _User WHERE login="vegeta@dragonball.com";')
         self.conn.run('''
             INSERT INTO
@@ -53,19 +53,19 @@ class CreatePantryTestCase(unittest.TestCase):
 
     def test_is_related(self):
         ans = self.conn.run(
-            'SELECT id_pantry FROM user_pantry WHERE id_pantry=%s',
+            'SELECT id_pantry FROM User_Pantry WHERE id_pantry=%s',
             self.pantry._id
         )
         assert ans[0] == self.pantry._id
 
     def test_has_ingredient(self):
-        self.conn.run('DELETE FROM ingredient_pantry WHERE id_ingredient=%s', self.ingredient._id)
+        self.conn.run('DELETE FROM Ingredient_Pantry WHERE id_ingredient=%s', self.ingredient._id)
         self.pantry.add_ingredient(self.conn, self.ingredient)
         assert self.ingredient._name in self.pantry.ingredients[0]._name
 
     def test_ingredient_relation(self):
         ans = self.conn.run(
-            'SELECT id_ingredient FROM ingredient_pantry WHERE id_ingredient=%s',
+            'SELECT id_ingredient FROM Ingredient_Pantry WHERE id_ingredient=%s',
             self.ingredient._id
         )
         assert self.ingredient._id == ans[0]
@@ -91,11 +91,13 @@ class CreatePantryTestCase(unittest.TestCase):
     def test_remove_ingredient_from_db(self):
         ans = self.conn.run(
         """
-        SELECT * FROM ingredient_pantry
+        SELECT * FROM Ingredient_Pantry
         WHERE id_pantry = %s
         AND id_ingredient = %s
         """ , (self.pantry._id, self.ingredient._id)
         )
         assert ans is None
+
+
 if __name__ == '__main__':
     unittest.main()

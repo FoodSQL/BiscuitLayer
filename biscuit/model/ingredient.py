@@ -29,17 +29,16 @@ class Ingredient():
     @classmethod
     def get_ingredient(cls, conn, _id):
         # Constructor (cls param is used for that)
-
         ingredient_info = cls.query_with_id(cls, conn, _id)
         _id = ingredient_info[0]
         name = ingredient_info[1]
         ingredient = Ingredient(name, _id)
         return ingredient
 
-      
+
     def query_with_id(self, conn, id):
         query = 'SELECT * FROM Ingredient WHERE id = %s'
-        cursor.run(query, id)
+        row = conn.run(query, id)
         return row
 
 
