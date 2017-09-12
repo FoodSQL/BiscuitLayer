@@ -24,7 +24,7 @@ class ConnectionHelper:
         with self.connection.cursor() as cursor:
             cursor.execute(query, args)
             result = cursor.fetchall()
-        self.connection.commit()
+        
         return result
 
 

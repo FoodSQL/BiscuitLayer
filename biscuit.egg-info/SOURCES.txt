@@ -1,4 +1,5 @@
 MANIFEST.in
+README.md
 setup.cfg
 setup.py
 biscuit/__init__.py
@@ -28,3 +29,4 @@ tests/model/__pycache__/test_ingredient.cpython-36-PYTEST.pyc
 tests/model/__pycache__/test_pantry.cpython-36-PYTEST.pyc
 tests/model/__pycache__/test_user.cpython-35-PYTEST.pyc
 tests/model/__pycache__/test_user.cpython-36-PYTEST.pyc
+

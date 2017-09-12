@@ -15,9 +15,6 @@ class GetUserTestCase(unittest.TestCase):
         biscuit.app.testing = True
         cls.app = biscuit.app.test_client()
         cls.conn = ConnectionHelper()
-        cls.user = User.get_user(cls.conn, 'vegeta@dragonball.com')
-        cls.conn.run('DELETE FROM User_pantry WHERE id_user=%s;', cls.user._id)
-        cls.conn.run('DELETE FROM _User WHERE login="vegeta@dragonball.com";')
         cls.conn.run('DELETE FROM _User WHERE login="vegeta@dragonball.com";')
         cls.conn.run('''
             INSERT INTO
