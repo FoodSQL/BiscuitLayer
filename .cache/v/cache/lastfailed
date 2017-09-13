@@ -1,4 +1,3 @@
 {
-  "tests/api/test_api_pantry.py::GetUserPantriesAPITestCase::test_was_success": true,
   "tests/model/test_pantry.py::CreatePantryTestCase::test_get_pantry": true
 }
