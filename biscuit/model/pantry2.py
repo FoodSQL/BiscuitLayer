@@ -23,8 +23,6 @@ def get_pantries(conn, user_id):
 
 def create_pantry_with_user(conn, pantry_name, user_id):
     pantry = Pantry.create_pantry(conn, pantry_name, user_id)
-    #pantry.associate_pantry(conn, pantry._id, user_id)
-    print(pantry._id, pantry._name)
     return pantry
 
 class Pantry():
