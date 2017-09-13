@@ -3,13 +3,26 @@ from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
 
 
+def query_with_id(conn, _id):
+    query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON up.id_pantry = p.id WHERE up.id_user = %s'
+    row = conn.runall(query, _id._id)
+    return row
+
+
 def get_pantries(conn, user_id):
-    pass
+    pantry_info = query_with_id(conn, user_id)
+    lista = []
+    for i in pantry_info:
+        name = i[3]
+        _id = i[2]
+        pantry = Pantry(name)
+        pantry._id = _id
+        lista.append(pantry)
+    return lista
 
 
 def create_pantry_with_user(conn, pantry_name, user_id):
     pantry = Pantry.create_pantry(conn, pantry_name, user_id)
-    pantry.associate_pantry(conn, pantry._id, user_id)
     return pantry
 
 class Pantry():
@@ -69,7 +82,7 @@ class Pantry():
 
 
     def query_with_id(self, conn, _id):
-        query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON id_pantry = id WHERE id_user = %s'
+        query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON up.id_pantry = p.id WHERE up.id_user = %s'
         row = conn.runall(query, _id)
         return row
 
