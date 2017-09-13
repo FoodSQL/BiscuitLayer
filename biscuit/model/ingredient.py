@@ -35,10 +35,22 @@ class Ingredient():
         ingredient = Ingredient(name, _id)
         return ingredient
 
+    @classmethod
+    def get_all_ingredients(cls, conn):
+        query = ("SELECT * FROM Ingredient")
+        result = conn.runall(query)
+        ingredients_list = []
+        for i in result:
+            _id = i[0]
+            name = i[1]
+            ingredient = Ingredient(name, _id)
+            ingredients_list.append(ingredient)
+        return ingredients_list
 
     def query_with_id(self, conn, id):
         query = 'SELECT * FROM Ingredient WHERE id = %s'
         row = conn.run(query, id)
+        print (row)
         return row
 
 

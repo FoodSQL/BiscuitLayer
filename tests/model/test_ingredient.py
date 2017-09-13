@@ -32,6 +32,9 @@ unittest.TestCase):
         )
         assert 'eggs' in ans
 
+    def test_get_all_ingredients(self):
+        ingredients_list = Ingredient.get_all_ingredients(self.conn)
+        assert len(ingredients_list) == 431
 
 
 if __name__ == '__main__':
