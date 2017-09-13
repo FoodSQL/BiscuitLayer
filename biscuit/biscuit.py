@@ -3,8 +3,8 @@ from biscuit.util.json_format import *
 from biscuit.util.connection_helper import ConnectionHelper
 from biscuit.model.user import User
 
-import biscuit.model.pantry2
-import biscuit.model.ingredient
+import biscuit.model.pantry2 as pantry2
+import biscuit.model.ingredient as ingredient
 
 
 app = Flask(__name__)
@@ -32,7 +32,7 @@ def get_user_by_id(user_id):
     return User.get_user_by_id(conn, user_id)
 
 
-def get_pantries(user):
+def _get_pantries(user):
     conn = ConnectionHelper()
     return pantry2.get_pantries(conn, user)
 
@@ -44,7 +44,7 @@ def get_ingredient_list():
 
 def create_pantry(pantry_name, user_id):
     conn = ConnectionHelper()
-    return pantry2.create_pantry_with_user(pantry_name, user_id)
+    return pantry2.create_pantry_with_user(conn, pantry_name, user_id)
 
 
 def add_item_to_pantry(pantry_id, item_id, amount, unit):
@@ -91,7 +91,7 @@ def pantry_remove_item():
 
 
 @app.route('/pantry/new', methods=['POST'])
-def create_pantry():
+def post_create_pantry():
     if request.method == 'POST':
         _json = request.get_json()
         user_id = _json['user_id']
@@ -104,7 +104,7 @@ def create_pantry():
 def get_pantries(user_id):
     if request.method == 'GET':
         user = get_user_by_id(int(user_id))
-        pantries = get_pantries(user)
+        pantries = _get_pantries(user)
         if len(pantries) > 0:
             return user_pantries_json(user, pantries), 200
         else:
