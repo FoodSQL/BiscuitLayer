@@ -10,7 +10,7 @@ from tests.mock.pantry_mock import *
 
 def fake_get_user(user_id):
     user = User_Mock(None, 'Goku', 'a@b', '124', '01/01/1991')
-    user._id = 42
+    user._id = user_id
     return user
 
 
@@ -45,10 +45,10 @@ class GetUserPantriesAPITestCase(unittest.TestCase):
     @patch('biscuit.biscuit.get_pantries', side_effect=fake_get_pantries)
     @patch('biscuit.biscuit.get_user_by_id', side_effect=fake_get_user)
     def test_was_success(self, mock, mock1):
-        response = self.app.get('/pantry/42')
+        response = self.app.get('/pantry/1')
         _json = json.loads(response.get_data(as_text=True))
 
         self.assertEquals(200, response.status_code)
-        self.assertEquals(42, _json['user_id'])
+        self.assertEquals(1, _json['user_id'])
         assert 'My Food'.lower() in _json['pantries'][0]['pantry_name'].lower()
         assert 'My Drink'.lower() in _json['pantries'][1]['pantry_name'].lower()

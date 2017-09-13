@@ -8,8 +8,8 @@ def get_pantries(conn, user_id):
 
 
 def create_pantry_with_user(conn, pantry_name, user_id):
-    pantry = Pantry.create_pantry(conn, pantry_name)
-    pantry.associate_pantry(conn, user_id)
+    pantry = Pantry.create_pantry(conn, pantry_name, user_id)
+    pantry.associate_pantry(conn, pantry._id, user_id)
     return pantry
 
 class Pantry():
