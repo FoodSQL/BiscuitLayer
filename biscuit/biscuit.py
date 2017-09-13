@@ -32,7 +32,7 @@ def get_user_by_id(user_id):
     return User.get_user_by_id(conn, user_id)
 
 
-def get_pantries(user):
+def _get_pantries(user):
     conn = ConnectionHelper()
     return pantry2.get_pantries(conn, user)
 
@@ -104,7 +104,7 @@ def post_create_pantry():
 def get_pantries(user_id):
     if request.method == 'GET':
         user = get_user_by_id(int(user_id))
-        pantries = get_pantries(user)
+        pantries = _get_pantries(user)
         if len(pantries) > 0:
             return user_pantries_json(user, pantries), 200
         else:

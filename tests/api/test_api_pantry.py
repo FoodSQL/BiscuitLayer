@@ -42,7 +42,7 @@ class GetUserPantriesAPITestCase(unittest.TestCase):
         pass
 
 
-    @patch('biscuit.biscuit.get_pantries', side_effect=fake_get_pantries)
+    @patch('biscuit.biscuit._get_pantries', side_effect=fake_get_pantries)
     @patch('biscuit.biscuit.get_user_by_id', side_effect=fake_get_user)
     def test_was_success(self, mock, mock1):
         response = self.app.get('/pantry/1')
