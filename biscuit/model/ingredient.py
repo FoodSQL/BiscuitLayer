@@ -4,7 +4,16 @@ from biscuit.util.connection_helper import ConnectionHelper
 
 
 def get_all_ingredients(conn):
-    pass
+    query = ("SELECT * FROM Ingredient")
+    result = conn.runall(query)
+    ingredients_list = []
+    for i in result:
+        _id = i[0]
+        name = i[1]
+        ingredient = Ingredient(name, _id)
+        ingredients_list.append(ingredient)
+    return ingredients_list
+
 
 class Ingredient():
 

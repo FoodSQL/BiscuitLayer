@@ -1,4 +1,7 @@
 import sys
+import pymysql
+
+
 from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
 
@@ -49,6 +52,14 @@ class Pantry():
 
 
     @classmethod
+    def get_pantry(cls, conn, pantry_id):
+        res = Pantry.fetch_pantry(cls, conn, pantry_id)
+        pantry = Pantry(res[1])
+        pantry._id = res[0]
+        return pantry
+
+
+    @classmethod
     def get_pantries(cls, conn, _id):
         # Constructor (cls param is used for that)
         pantry_info = cls.query_with_id(cls, conn, _id)
@@ -62,30 +73,37 @@ class Pantry():
         return lista
 
 
+    def fetch_pantry(self, conn, pantry_id):
+        query = 'SELECT * FROM Pantry WHERE id=%s'
+        return conn.run(query, pantry_id)
+
+
     def add_ingredient(self, conn, ingredient):
         self.associate_ingredient(conn, ingredient._id)
         self.ingredients.append(ingredient)
 
 
     def remove_ingredient(self, conn, ingredient):
-        query = "DELETE FROM Ingredient_Pantry WHERE id_ingredient = %s"
-        conn.run(query, ingredient._id)
+        query = "DELETE FROM Ingredient_Pantry WHERE id_ingredient = %s AND id_pantry = %s"
+        conn.run(query, (ingredient._id,self._id))
         for i in reversed(self.ingredients):
             if i._name.strip() in ingredient._name.strip():
                 self.ingredients.remove(i)
 
     def associate_ingredient(self, conn, ingredient_id):
-        query = "INSERT INTO Ingredient_Pantry (id_ingredient, id_pantry)" \
+        try:
+            query = "INSERT INTO Ingredient_Pantry (id_ingredient, id_pantry)" + \
                 "VALUES (%s, %s)"
-        args = (ingredient_id, self._id)
-        conn.run(query, args)
+            args = (ingredient_id, self._id)
+            conn.run(query, args)
+        except pymysql.err.IntegrityError:
+            pass 
 
 
     def query_with_id(self, conn, _id):
         query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON up.id_pantry = p.id WHERE up.id_user = %s'
         row = conn.runall(query, _id)
         return row
-
 
 
     def get_ingredients(self):
