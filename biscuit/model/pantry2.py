@@ -47,6 +47,7 @@ class Pantry():
         row = cls.insert_pantry(cls, conn, pantry_name)
         pantry = Pantry(pantry_name)
         pantry.__update_id(conn)
+        pantry.get_pantry_ingredients(conn)
         cls.associate_pantry(cls, conn, pantry._id, user_id)
         return pantry
 
@@ -71,6 +72,15 @@ class Pantry():
             pantry._id = _id
             lista.append(pantry)
         return lista
+
+    def get_pantry_ingredients(self, conn):
+        query = "SELECT * FROM Ingredient_Pantry JOIN Ingredient on id_ingredient = id WHERE id_pantry=%s"
+        result = conn.runall(query, self._id)
+        for i in result:
+            name = i[1]
+            _id = i[0]
+            ingredient = Ingredient(name, _id)
+            ingredients.append(ingredient)
 
 
     def fetch_pantry(self, conn, pantry_id):

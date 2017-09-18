@@ -47,7 +47,7 @@ class ConnectionHelper:
             conn_opt = {
                 'host': host,
                 'user': user,
-                'password': password,
+                'password': "Derrick1",
                 'database': database,
             }
             return conn_opt
