@@ -107,7 +107,7 @@ class Pantry():
             args = (ingredient_id, self._id)
             conn.run(query, args)
         except pymysql.err.IntegrityError:
-            pass 
+            pass
 
 
     def query_with_id(self, conn, _id):
