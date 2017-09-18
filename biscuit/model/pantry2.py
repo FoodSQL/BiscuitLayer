@@ -1,60 +1,114 @@
 import sys
+import pymysql
+
+
 from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
 
 
+def query_with_id(conn, _id):
+    query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON up.id_pantry = p.id WHERE up.id_user = %s'
+    row = conn.runall(query, _id._id)
+    return row
+
+
 def get_pantries(conn, user_id):
-    pass
+    pantry_info = query_with_id(conn, user_id)
+    lista = []
+    for i in pantry_info:
+        name = i[3]
+        _id = i[2]
+        pantry = Pantry(name)
+        pantry._id = _id
+        lista.append(pantry)
+    return lista
 
 
 def create_pantry_with_user(conn, pantry_name, user_id):
-    pantry = Pantry.create_pantry(conn, pantry_name)
-    pantry.associate_pantry(conn, user_id)
+    pantry = Pantry.create_pantry(conn, pantry_name, user_id)
     return pantry
 
 class Pantry():
 
     _id = None
     _name = None
-    items = []
+    ingredients = []
+
 
     def __init__(self, _name):
         # NEVER call this
         self._name = _name
+        self._id = None
 
 
     @classmethod
-    def create_pantry(cls, conn, _name):
+    def create_pantry(cls, conn, pantry_name, user_id):
         # Constructor (cls param is used for that)
-        pantry = Pantry(_name)
-        pantry.insert_pantry(conn, _name)
-        pantry.__update_id
+        row = cls.insert_pantry(cls, conn, pantry_name)
+        pantry = Pantry(pantry_name)
+        pantry.__update_id(conn)
+        cls.associate_pantry(cls, conn, pantry._id, user_id)
         return pantry
 
 
     @classmethod
-    def get_pantry(cls, conn, _id):
+    def get_pantry(cls, conn, pantry_id):
+        res = Pantry.fetch_pantry(cls, conn, pantry_id)
+        pantry = Pantry(res[1])
+        pantry._id = res[0]
+        return pantry
+
+
+    @classmethod
+    def get_pantries(cls, conn, _id):
         # Constructor (cls param is used for that)
-        self.query_with_id(conn, _id)
+        pantry_info = cls.query_with_id(cls, conn, _id)
+        lista = []
+        for i in pantry_info:
+            name = i[3]
+            _id = i[2]
+            pantry = Pantry(name)
+            pantry._id = _id
+            lista.append(pantry)
+        return lista
+
+
+    def fetch_pantry(self, conn, pantry_id):
+        query = 'SELECT * FROM Pantry WHERE id=%s'
+        return conn.run(query, pantry_id)
+
+
+    def add_ingredient(self, conn, ingredient):
+        self.associate_ingredient(conn, ingredient._id)
+        self.ingredients.append(ingredient)
+
+
+    def remove_ingredient(self, conn, ingredient):
+        query = "DELETE FROM Ingredient_Pantry WHERE id_ingredient = %s AND id_pantry = %s"
+        conn.run(query, (ingredient._id,self._id))
+        for i in reversed(self.ingredients):
+            if i._name.strip() in ingredient._name.strip():
+                self.ingredients.remove(i)
+
+    def associate_ingredient(self, conn, ingredient_id):
+        try:
+            query = "INSERT INTO Ingredient_Pantry (id_ingredient, id_pantry)" + \
+                "VALUES (%s, %s)"
+            args = (ingredient_id, self._id)
+            conn.run(query, args)
+        except pymysql.err.IntegrityError:
+            pass 
 
 
     def query_with_id(self, conn, _id):
-        query = 'SELECT * FROM Pantry WHERE id = %s'
-        try:
-            cursor = conn.cursor()
-            cursor.execute(query, _id)
-            row = cursor.fetchone()
-            print (row)
-
-        except Exception as e:
-            print(e)
-
-        finally:
-            cursor.close()
+        query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON up.id_pantry = p.id WHERE up.id_user = %s'
+        row = conn.runall(query, _id)
+        return row
 
 
     def get_ingredients(self):
-        return self.items
+        return self.ingredients
+
 
     def add_item(self, item_id, amount, unit):
         pass
@@ -63,24 +117,17 @@ class Pantry():
         query = "INSERT INTO Pantry(_name)" \
                 "VALUES (%s)"
         args = (_name)
-        conn.run(query, args)
+        last = conn.run(query, args)
+        print(last)
+
 
     def __update_id(self, conn):
-        query = 'SELECT id FROM Pantry WHERE name=%s'
+        query = 'SELECT id FROM Pantry WHERE _name=%s'
         self._id = conn.run(query, self._name)[0]
 
-    def associate_pantry(self, conn, id_user):
+
+    def associate_pantry(self, conn, id_pantry, user_id):
         query = "INSERT INTO User_Pantry(id_user, id_pantry)" \
                 "VALUES (%s, %s)"
-        args = (id_user, self._id)
-
-        try:
-            cursor = conn.cursor()
-            cursor.execute(query, args)
-            conn.commit()
-
-        except Error as e:
-            print(e)
-
-        finally:
-            cursor.close()
+        args = (user_id, id_pantry)
+        conn.run(query, args)

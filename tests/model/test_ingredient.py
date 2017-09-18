@@ -7,43 +7,37 @@ from biscuit.model.ingredient import Ingredient
 from biscuit.util.connection_helper import ConnectionHelper
 from mock import patch, Mock
 
-class CreateIngredientTestCase(unittest.TestCase):
+class CreateIngredientTestCase(
+unittest.TestCase):
 
     def setUp(self):
         biscuit.app.testing = True
         self.app = biscuit.app.test_client()
         self.conn = ConnectionHelper()
-        self.ingredient = Ingredient.create_ingredient(
+        self.ingredient = Ingredient.get_ingredient(
             self.conn,
-            'Paprika',
-            5
+            4
         )
-
-    def tearDown(self):
-        pass
 
     def test_exists(self):
         assert self.ingredient is not None
 
     def test_name_is_correct(self):
-        assert 'Paprika' in self.ingredient._name
+        assert 'eggs' in self.ingredient._name
 
-    def test_price_is_correct(self):
-        assert self.ingredient.price_range == 5
 
     def test_is_in_db(self):
         ans = self.conn.run(
-            'SELECT _name FROM ingredient WHERE _name="Paprika"'
+            'SELECT _name FROM Ingredient WHERE _name="eggs"'
         )
-        assert 'Paprika' in ans
+        assert 'eggs' in ans
 
-    def test_cannot_recreate(self):
-        with self.assertRaises(IntegrityError):
-            Ingredient.create_ingredient(
-                self.conn,
-                'Paprika',
-                5
-            )
+    def test_get_all_ingredients(self):
+        query = ("SELECT * FROM Ingredient")
+        db_ingredients_list = self.conn.runall(query)
+        ingredients_list = Ingredient.get_all_ingredients(self.conn)
+        assert len(ingredients_list) == len(db_ingredients_list)
+
 
 if __name__ == '__main__':
     unittest.main()

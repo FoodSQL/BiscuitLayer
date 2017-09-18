@@ -3,9 +3,10 @@ from biscuit.util.json_format import *
 from biscuit.util.connection_helper import ConnectionHelper
 from biscuit.model.user import User
 
-import biscuit.model.pantry2
-import biscuit.model.ingredient
-import biscuit.model.recipe
+import biscuit.model.recipe as recipe
+import biscuit.model.pantry2 as pantry2
+import biscuit.model.ingredient as ingredient
+import json
 
 
 app = Flask(__name__)
@@ -14,7 +15,6 @@ app = Flask(__name__)
 def create_user(name, email, password, birthdate):
     # wrapper used for mocking
     conn = ConnectionHelper()
-    print(conn)
     return User.create_user(conn, name, email, password, birthdate)
 
 def create_ingredient(_name, price_range):
@@ -33,31 +33,34 @@ def get_user_by_id(user_id):
     return User.get_user_by_id(conn, user_id)
 
 
-def get_pantries(user):
+def _get_pantries(user):
     conn = ConnectionHelper()
     return pantry2.get_pantries(conn, user)
 
 
 def get_ingredient_list():
     conn = ConnectionHelper()
-    return get_all_ingredients()
+    return ingredient.get_all_ingredients(conn)
 
 
 def create_pantry(pantry_name, user_id):
     conn = ConnectionHelper()
-    return pantry2.create_pantry_with_user(pantry_name, user_id)
+    return pantry2.create_pantry_with_user(conn, pantry_name, user_id)
 
 
 def add_item_to_pantry(pantry_id, item_id, amount, unit):
     conn = ConnectionHelper()
     pantry = pantry2.Pantry.get_pantry(conn, pantry_id)
-    pantry.add_item(conn, item_id, amount, unit)
+    ing = ingredient.Ingredient.get_ingredient(conn, item_id)
+    pantry.add_ingredient(conn, ing)
     return pantry
 
 
 def remove_item_from_pantry(pantry, item_id, amount, unit):
     conn = ConnectionHelper()
-    pantry.remove_item(conn, item_id, amount, unit)
+    print(item_id)
+    ing = ingredient.Ingredient.get_ingredient(conn, item_id)
+    pantry.remove_ingredient(conn, ing)
     return pantry
 
 
@@ -102,7 +105,7 @@ def pantry_add_item():
         item_id = _json['item_id']
         amount = _json['amount']
         add_item_to_pantry(pantry_id, item_id, amount, 'kg')
-        return _json, 200
+        return json.dumps(_json), 200
 
 
 @app.route('/pantry/remove_item', methods=['POST'])
@@ -110,18 +113,18 @@ def pantry_remove_item():
     if request.method == 'POST':
         _json = request.get_json()
         pantry_id = _json['pantry_id']
-        pantry = get_pantry_by_id(pantry_id)
+        _pantry = get_pantry_by_id(pantry_id)
 
         for item in _json['items']:
             item_id = item['item_id']
-            amount = item['amount']
-            remove_item_from_pantry(pantry, item_id, amount, 'kg')
+            amount = item['item_amount']
+            remove_item_from_pantry(_pantry, item_id, amount, 'kg')
 
-        return _json, 200
+        return json.dumps(_json), 200
 
 
 @app.route('/pantry/new', methods=['POST'])
-def create_pantry():
+def post_create_pantry():
     if request.method == 'POST':
         _json = request.get_json()
         user_id = _json['user_id']
@@ -134,8 +137,7 @@ def create_pantry():
 def get_pantries(user_id):
     if request.method == 'GET':
         user = get_user_by_id(int(user_id))
-        pantries = get_pantries(user)
-
+        pantries = _get_pantries(user)
         if len(pantries) > 0:
             return user_pantries_json(user, pantries), 200
         else:

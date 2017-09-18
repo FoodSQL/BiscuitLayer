@@ -17,7 +17,14 @@ class ConnectionHelper:
         with self.connection.cursor() as cursor:
             cursor.execute(query, args)
             result = cursor.fetchone()
+        self.connection.commit()
+        return result
 
+
+    def runall(self, query, args=None):
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, args)
+            result = cursor.fetchall()
         self.connection.commit()
         return result
 
