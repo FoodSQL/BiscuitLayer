@@ -23,7 +23,7 @@ def fake_update_user(user_id, user_name, user_email, user_password):
 class UpdateUserAPITestCase(unittest.TestCase):
 
     @patch('biscuit.biscuit.update_user', side_effect=fake_update_user)
-    def setUp(self):
+    def setUp(self, mock):
         biscuit.app.testing = True
         self.app = biscuit.app.test_client()
         self.res = self.app.post(
@@ -49,9 +49,9 @@ class UpdateUserAPITestCase(unittest.TestCase):
 
     def test_basic_json_integrity(self):
         _json = json.loads(self.res.get_data(as_text=True))
-        self.assertEquals(42, int(_json['user_id']))
-        assert 'freeza' in str(_json['user_name']).lower()
-        assert 'freeza@dragonball.com' in str(_json['user_email']).lower()
+        self.assertEquals(42, int(_json['id']))
+        assert 'freeza' in str(_json['name']).lower()
+        assert 'freeza@dragonball.com' in str(_json['email']).lower()
 
 
 class APILoginUserTestCase(unittest.TestCase):
