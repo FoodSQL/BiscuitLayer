@@ -8,6 +8,40 @@ from biscuit.util.connection_helper import ConnectionHelper
 from mock import patch, Mock
 
 
+class UpdateUserTestCase(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        biscuit.app.testing = True
+        cls.app = biscuit.app.test_client()
+        cls.conn = ConnectionHelper()
+        cls.conn.run('DELETE FROM _User WHERE login="brolly@dragonball.com.jp"')
+        cls.conn.run('''
+            INSERT INTO
+                _User(id, _name, login, _password, email)
+            VALUES
+                (1, "Brolly", "brolly@dragonball.com.jp",
+                "everyone.sux123", "brolly@dragonball.com.jp")
+        ''')
+        cls.user_id = 1
+
+        # update
+        cls.user = User.update_user(cls.conn, cls.user_id, 'Bruno',
+                                    'brolly@dragonball.com.jp', 'dabdab')
+
+
+    @classmethod
+    def tearDownClass(cls):
+        pass
+
+
+    def test_was_success(self):
+        assert self.user_id == self.user._id
+        assert 'bruno' in self.user.name.lower()
+        assert 'brolly@dragonball.com.jp' in self.user.email.lower()
+        assert 'dabdab' in self.user.password.lower()
+
+
 class GetUserTestCase(unittest.TestCase):
 
     @classmethod

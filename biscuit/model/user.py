@@ -1,5 +1,7 @@
 import sys
 
+from pymysql.err import IntegrityError
+
 
 class User():
 
@@ -17,6 +19,43 @@ class User():
         self.password = password
         self.birthdate = birthdate
         self.login = email
+
+
+    def update(self, conn, name, email, password):
+        old_name, old_email, old_pwd = self.name, self.email, self.password
+        old_login = self.login
+        try:
+            query = '''
+                UPDATE
+                    _User
+                SET
+                    _name=%s,
+                    email=%s,
+                    login=%s,
+                    _password=%s
+                WHERE
+                    id=%s
+            '''
+            args = (name, email, email, password, self._id)
+            conn.run(query, args)
+            self.name = name
+            self.email = email
+            self.login = email
+            self.password = password
+
+        except IntegrityError:
+            self.name = old_name
+            self.email = old_email
+            self.login = old_login
+            self.password = old_pwd
+
+
+
+    @classmethod
+    def update_user(cls, conn, _id, name, email, password):
+        user = User.get_user_by_id(conn, _id)
+        user.update(conn, name, email, password)
+        return user
 
 
     @classmethod
