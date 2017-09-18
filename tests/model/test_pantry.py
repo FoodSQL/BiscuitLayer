@@ -108,7 +108,12 @@ class CreatePantryTestCase(unittest.TestCase):
         )
         assert ans is None
 
-
+    # def test_get_pantry_ingredients(self):
+    #     for i in self.pantry.ingredients:
+    #         self.pantry.remove_ingredient(self.conn, i)
+    #
+    #     result = self.pantry.get_pantry_ingredients(self.conn)
+    #     assert Ingredient
 
 if __name__ == '__main__':
     unittest.main()
