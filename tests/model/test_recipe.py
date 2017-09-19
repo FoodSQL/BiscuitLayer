@@ -40,13 +40,19 @@ class CreateRecipeTestCase(unittest.TestCase):
             VALUES
                 (1, 4)
         """)
+        cls.conn.run("""
+            INSERT INTO
+                Recipe_Ingredient
+            VALUES
+                (1, 2367)
+        """)
 
     # def test_recipe(self):
     #     recipe = Recipe.get_recipe_by_id(self.conn, 1)
     #     assert recipe is not None
 
     def test_get_all_recipes(self):
-        recipes = Recipe.get_recipes_by_ingredient(self.conn, 1)
+        recipes = Recipe.get_recipes_by_ingredient(self.conn, 6)
         assert recipes is not None
 
 

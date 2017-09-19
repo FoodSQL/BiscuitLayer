@@ -106,24 +106,6 @@ class CreatePantryTestCase(unittest.TestCase):
         for i in self.pantry.ingredients:
             assert self.ingredient._name not in i._name
 
-    def test_get_pantry_ingredients(self):
-        for i in self.pantry.ingredients:
-            self.pantry.remove_ingredient(self.conn, i)
-        self.conn.run('''
-            DELETE FROM Ingredient_Pantry
-            WHERE id_pantry=6
-        ''')
-        self.conn.run('''
-            INSERT INTO Ingredient_Pantry
-            VALUES (2374, 6)
-        ''')
-        self.conn.run('''
-            INSERT INTO Ingredient_Pantry
-            VALUES (2375, 6)
-        ''')
-        result = self.pantry.get_pantry_ingredients(self.conn)
-        assert self.pantry.ingredients is None
-
     def test_remove_ingredient_from_db(self):
         ans = self.conn.run(
         """

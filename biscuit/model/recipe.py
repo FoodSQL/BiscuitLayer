@@ -2,6 +2,7 @@ import sys
 from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
 from biscuit.model.pantry2 import Pantry
+from biscuit.model.ingredient import Ingredient
 
 class Recipe():
 
@@ -9,15 +10,17 @@ class Recipe():
     _name = None
     description = None
     difficulty = None
-    ingredients = None
+    ingredients = []
+    percentage = None
 
 
-    def __init__(self, _id, name, description, difficulty, ingredients):
+    def __init__(self, _id, name, description, difficulty=None, ingredients=None):
         self._id = _id
-        self._name = _name
+        self._name = name
         self.description = description
         self.difficulty = difficulty
-        self.ingredients = ingredients
+        self.ingredients = []
+        self.percentage = None
 
     @classmethod
     def create_recipe():
@@ -25,12 +28,31 @@ class Recipe():
 
     @classmethod
     def get_recipe_by_id(cls, conn, _id):
-        query = "SELECT * FROM Recipe JOIN Recipe_Ingredient ON id_recipe = id WHERE id = %s"
+        query = """SELECT Recipe._name, Recipe.id FROM Recipe
+                JOIN Recipe_Ingredient ON id_recipe = Recipe.id
+                JOIN Ingredient ON id_ingredient = Ingredient.id
+                WHERE Recipe.id = %s"""
         result = conn.run(query, _id)
-        print(result)
-        _id = result[0]
-        _name = result[1]
+        _id = result[1]
+        _name = result[0]
+        recipe = Recipe(_id, _name, _name)
+        recipe.get_recipe_ingredients(conn)
+        return recipe
 
+
+    def get_recipe_ingredients(self, conn):
+        query = """
+            SELECT i._name, i.id, ri.id_recipe
+            FROM Recipe_Ingredient as ri
+            JOIN Ingredient as i
+            ON i.id = ri.id_ingredient
+            WHERE ri.id_recipe = %s
+        """
+
+        result = conn.runall(query, self._id)
+        for i in result:
+            ingredient = Ingredient(i[0], i[1])
+            self.ingredients.append(ingredient)
 
 
     @classmethod
@@ -73,11 +95,11 @@ class Recipe():
 
         conn.run(delete_view)
         conn.run(create_view)
-        result =  (conn.runall(mega_join, pantry_id)[0])
+        result =  conn.runall(mega_join, pantry_id)
         recipes = []
         for i in result:
             _id = i[2]
-            recipe = get_recipe_by_id(conn, _id)
-        # recipes.append(recipe)
-
+            recipe = Recipe.get_recipe_by_id(conn, _id)
+            recipe.percentage = i[3]
+            recipes.append(recipe)
         return recipes

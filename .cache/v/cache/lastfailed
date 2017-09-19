@@ -1,6 +1,5 @@
 {
   "tests/model/test_pantry.py::CreatePantryTestCase::test_get_pantry": true,
   "tests/model/test_pantry.py::CreatePantryTestCase::test_get_pantry_ingredients": true,
-  "tests/model/test_recipe.py::CreateRecipeTestCase::test_get_all_recipes": true,
   "tests/model/test_recipe.py::CreateRecipeTestCase::test_recipe": true
 }
