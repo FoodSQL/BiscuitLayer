@@ -27,8 +27,11 @@ def pantry_dictionary(pantry):
     _pantry['pantry_id'] = pantry._id
     _pantry['pantry_name'] = pantry._name
     _pantry['items'] = []
+    added_items = set()
     for item in pantry.get_ingredients():
-        _pantry['items'].append(item_dictionary(item))
+        if item._id not in added_items:
+            added_items.add(item._id)
+            _pantry['items'].append(item_dictionary(item))
     return _pantry
 
 

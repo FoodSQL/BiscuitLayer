@@ -20,6 +20,7 @@ def get_pantries(conn, user_id):
         _id = i[2]
         pantry = Pantry(name)
         pantry._id = _id
+        pantry.get_pantry_ingredients(conn)
         lista.append(pantry)
     return lista
 
@@ -84,6 +85,7 @@ class Pantry():
                     WHERE Ingredient_Pantry.id_pantry = %s
         """
         result = conn.runall(query, self._id)
+        self.ingredients = []
         for i in result:
             name = i[0]
             _id = i[1]

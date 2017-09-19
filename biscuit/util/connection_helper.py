@@ -47,7 +47,7 @@ class ConnectionHelper:
         except:
             host = 'localhost'
             user = 'root'
-            password = 'Derrick1'
+            password = '1234'
 
         finally:
             conn_opt = {
