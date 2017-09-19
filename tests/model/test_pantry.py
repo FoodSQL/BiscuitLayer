@@ -12,7 +12,7 @@ from mock import patch, Mock
 class CreatePantryTestCase(unittest.TestCase):
 
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         biscuit.app.testing = True
         cls.app = biscuit.app.test_client()
         cls.conn = ConnectionHelper()
@@ -22,8 +22,10 @@ class CreatePantryTestCase(unittest.TestCase):
             cls.conn.run('DELETE FROM User_Pantry WHERE id_user=%s;', cls.user._id)
         except:
             pass
-        cls.conn.run('DELETE FROM Ingredient_Pantry WHERE id_ingredient=4')
+        cls.conn.run('DELETE FROM Ingredient_Pantry WHERE id_ingredient=4;')
+        cls.conn.run('DELETE FROM Recipe_Ingredient WHERE id_ingredient=4')
         cls.conn.run('DELETE FROM Ingredient WHERE id=4;')
+
         cls.conn.run('INSERT INTO Ingredient (id, _name) VALUES (4, "eggs");')
         cls.conn.run('DELETE FROM _User WHERE login="vegeta1@dragonball.com";')
         cls.conn.run('''
