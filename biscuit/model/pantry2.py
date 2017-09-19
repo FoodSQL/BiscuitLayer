@@ -57,6 +57,7 @@ class Pantry():
         res = Pantry.fetch_pantry(cls, conn, pantry_id)
         pantry = Pantry(res[1])
         pantry._id = res[0]
+        pantry.get_pantry_ingredients(cls, conn)
         return pantry
 
 

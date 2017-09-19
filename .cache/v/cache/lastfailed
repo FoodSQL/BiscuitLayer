@@ -1,4 +1,5 @@
 {
   "tests/model/test_pantry.py::CreatePantryTestCase::test_get_pantry": true,
-  "tests/model/test_pantry.py::CreatePantryTestCase::test_get_pantry_ingredients": true
+  "tests/model/test_pantry.py::CreatePantryTestCase::test_get_pantry_ingredients": true,
+  "tests/model/test_user.py::UpdateUserTestCase::test_was_success": true
 }
