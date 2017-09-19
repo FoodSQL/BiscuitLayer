@@ -17,17 +17,18 @@ ingredient_ids = []
 for i in ingredients:
     ingredient_ids.append(i[0])
 
+print('hi')
 
-with open("recipes.txt") as json:
+with open("recipes.txt", 'r') as json:
     for i in json:
         if (len(i) > 4):
             try:
                 conn.run(query, (i, i, random.randint(100)))
             except:
-                pass
-            # print (i)
+                print (i)
 
 recipe_ids = conn.runall(id_query)
+print(recipe_ids)
 for i in recipe_ids:
     random.shuffle(ingredient_ids)
     for j in range(random.randint(7)):

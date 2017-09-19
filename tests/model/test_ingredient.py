@@ -7,15 +7,18 @@ from biscuit.model.ingredient import Ingredient
 from biscuit.util.connection_helper import ConnectionHelper
 from mock import patch, Mock
 
-class CreateIngredientTestCase(
-unittest.TestCase):
+class CreateIngredientTestCase(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         biscuit.app.testing = True
-        self.app = biscuit.app.test_client()
-        self.conn = ConnectionHelper()
-        self.ingredient = Ingredient.get_ingredient(
-            self.conn,
+        cls.app = biscuit.app.test_client()
+        cls.conn = ConnectionHelper()
+        cls.conn.run('DELETE FROM Recipe_Ingredient WHERE id_ingredient=4')
+        cls.conn.run('DELETE FROM Ingredient WHERE id=4')
+        cls.conn.run('INSERT INTO Ingredient(id, _name) VALUES (4, "eggs")')
+        cls.ingredient = Ingredient.get_ingredient(
+            cls.conn,
             4
         )
 

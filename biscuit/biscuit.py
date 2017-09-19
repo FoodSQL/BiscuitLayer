@@ -117,8 +117,8 @@ def pantry_remove_item():
 
         for item in _json['items']:
             item_id = item['item_id']
-            amount = item['item_amount']
-            remove_item_from_pantry(_pantry, item_id, amount, 'kg')
+            # amount = item['item_amount']
+            remove_item_from_pantry(_pantry, item_id, 0, 'kg')
 
         return json.dumps(_json), 200
 

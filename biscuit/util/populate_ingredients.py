@@ -1,4 +1,3 @@
-
 from connection_helper import ConnectionHelper
 
 conn = ConnectionHelper()
@@ -437,13 +436,14 @@ ingredients = [
   ]
 
 
+conn.run('DELETE FROM Recipe_Ingredient')
 conn.run("""
     DELETE
-    FROM ingredient
+    FROM Ingredient
 """)
 for i in ingredients:
     conn.run("""
-        INSERT INTO ingredient(_name)
+        INSERT INTO Ingredient(_name)
         VALUES (%s)
     """, i)
 print (len(ingredients))

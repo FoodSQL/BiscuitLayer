@@ -62,7 +62,7 @@ class Recipe():
                 on Ingredient_Pantry.id_pantry = Pantry.id
             inner join ing_num
                 on ing_num._id = Recipe.id
-            where Pantry.id = (%s);
+            where Pantry.id = (%s)
             group by Recipe.id
             order by (COUNT(Ingredient.id)/ing_num.ing_num) desc
         '''
