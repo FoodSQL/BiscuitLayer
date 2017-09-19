@@ -10,30 +10,31 @@ from mock import patch, Mock
 
 class CreateRecipeTestCase(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         biscuit.app.testing = True
-        self.app = biscuit.app.test_client()
-        self.conn = ConnectionHelper()
-        conn.run("""
+        cls.app = biscuit.app.test_client()
+        cls.conn = ConnectionHelper()
+        cls.conn.run("""
             DELETE FROM
                 Recipe_Ingredient
             WHERE
                 id_recipe = 1
         """)
-        conn.run("""
+        cls.conn.run("""
             DELETE FROM
                 Recipe
             WHERE
                 id = 1
         """)
-        conn.run("""
+        cls.conn.run("""
             INSERT INTO
                 Recipe
             VALUES
                 (1, "Arroz", "Arroz facinho de fazer",
-                "100")
+                 100)
         """)
-        conn.run("""
+        cls.conn.run("""
             INSERT INTO
                 Recipe_Ingredient
             VALUES
@@ -41,8 +42,12 @@ class CreateRecipeTestCase(unittest.TestCase):
         """)
 
     def test_recipe(self):
-        recipe = recipe.get_recipe_by_id(self.conn, 1):
+        recipe = recipe.get_recipe_by_id(self.conn, 1)
         assert recipe is not None
+
+    def test_get_all_recipes(self):
+        recipes = Recipe.get_recipes_by_ingredient(self.conn, 1)
+        assert recipes is not None
 
 
 if __name__ == '__main__':

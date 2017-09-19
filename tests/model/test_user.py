@@ -20,10 +20,10 @@ class UpdateUserTestCase(unittest.TestCase):
             INSERT INTO
                 _User(id, _name, login, _password, email)
             VALUES
-                (1, "Brolly", "brolly@dragonball.com.jp",
+                (2020202, "Brolly", "brolly@dragonball.com.jp",
                 "everyone.sux123", "brolly@dragonball.com.jp")
         ''')
-        cls.user_id = 1
+        cls.user_id = 2020202
 
         # update
         cls.user = User.update_user(cls.conn, cls.user_id, 'Bruno',

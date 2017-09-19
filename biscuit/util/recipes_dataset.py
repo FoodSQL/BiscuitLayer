@@ -30,6 +30,5 @@ with open("recipes.txt") as json:
 recipe_ids = conn.runall(id_query)
 for i in recipe_ids:
     random.shuffle(ingredient_ids)
-    conn.run(ins_query, (i, ingredient_ids[0]))
-    conn.run(ins_query, (i, ingredient_ids[1]))
-    conn.run(ins_query, (i, ingredient_ids[2]))
+    for j in range(random.randint(7)):
+        conn.run(ins_query, (i, ingredient_ids[j]))

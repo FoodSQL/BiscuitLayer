@@ -17,7 +17,10 @@ class ConnectionHelper:
         with self.connection.cursor() as cursor:
             cursor.execute(query, args)
             result = cursor.fetchone()
-        self.connection.commit()
+        try:
+            self.connection.commit()
+        except:
+            self.connection.rollback()
         return result
 
 
@@ -25,7 +28,10 @@ class ConnectionHelper:
         with self.connection.cursor() as cursor:
             cursor.execute(query, args)
             result = cursor.fetchall()
-        self.connection.commit()
+        try:
+            self.connection.commit()
+        except:
+            self.connection.rollback()
         return result
 
 

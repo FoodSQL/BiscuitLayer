@@ -36,9 +36,10 @@ tests/mock/__pycache__/recipe_mock.cpython-36.pyc
 tests/mock/__pycache__/user_mock.cpython-36.pyc
 tests/model/test_ingredient.py
 tests/model/test_pantry.py
+tests/model/test_recipe.py
 tests/model/test_user.py
-tests/model/text_recipe.py
 tests/model/__pycache__/test_ingredient.cpython-36-PYTEST.pyc
 tests/model/__pycache__/test_pantry.cpython-36-PYTEST.pyc
+tests/model/__pycache__/test_recipe.cpython-36-PYTEST.pyc
 tests/model/__pycache__/test_user.cpython-35-PYTEST.pyc
 tests/model/__pycache__/test_user.cpython-36-PYTEST.pyc
