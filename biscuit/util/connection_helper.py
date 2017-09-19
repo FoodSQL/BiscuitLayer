@@ -39,7 +39,7 @@ class ConnectionHelper:
         database = 'my_chef'
         try:
             home = str(Path.home())
-            with open('/{}/mysql-keys.txt'.format(home), 'r') as f:
+            with open (Path('/{}/mysql-keys.txt'.format(home)), 'r') as f:
                 host = str(f.readline().strip())
                 user = str(f.readline().strip())
                 password = str(f.readline().strip())

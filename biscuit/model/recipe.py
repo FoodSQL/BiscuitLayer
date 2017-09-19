@@ -25,8 +25,9 @@ class Recipe():
 
     @classmethod
     def get_recipe_by_id(cls, conn, _id):
-        query = "SELECT * FROM Recipe JOIN Recipe_Ingredient ON id_recipe = _id WHERE _id = %s"
+        query = "SELECT * FROM Recipe JOIN Recipe_Ingredient ON id_recipe = id WHERE id = %s"
         result = conn.run(query, _id)
+        print(result)
         _id = result[0]
         _name = result[1]
 
@@ -36,10 +37,10 @@ class Recipe():
     def get_recipes_by_ingredient(cls, conn, pantry_id):
         pantry = Pantry.get_pantry(conn, pantry_id)
 
+        delete_view = 'DROP VIEW IF EXISTS ing_num;'
         create_view =  '''
-            DROP VIEW IF EXISTS ing_num;
             CREATE VIEW ing_num  AS
-            SELECT r._name as _name, r.id as _id, COUNT(ri.id_recipe)  as ing_num
+            SELECT r._name as _name, r.id as _id, COUNT(ri.id_recipe)  as rec_num
             FROM Recipe_Ingredient AS ri
             INNER JOIN Recipe AS r
             ON id = id_recipe
@@ -49,7 +50,9 @@ class Recipe():
             select
                 Recipe._name as recipe_name,
                 Ingredient._name as ingredient_name,
-                COUNT(Recipe.id)
+                Recipe.id,
+                COUNT(Recipe.id),
+                COUNT(Ingredient.id)/ing_num.rec_num
             from
                 Recipe
             inner join Recipe_Ingredient
@@ -64,11 +67,17 @@ class Recipe():
                 on ing_num._id = Recipe.id
             where Pantry.id = (%s)
             group by Recipe.id
-            order by (COUNT(Ingredient.id)/ing_num.ing_num) desc
+            order by (COUNT(Ingredient.id)/ing_num.rec_num) desc;
         '''
 
+
+        conn.run(delete_view)
         conn.run(create_view)
-        print (conn.runall(mega_join, pantry_id))
+        result =  (conn.runall(mega_join, pantry_id)[0])
+        recipes = []
+        for i in result:
+            _id = i[2]
+            recipe = get_recipe_by_id(conn, _id)
         # recipes.append(recipe)
 
         return recipes
