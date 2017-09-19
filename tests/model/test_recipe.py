@@ -32,7 +32,7 @@ class CreateRecipeTestCase(unittest.TestCase):
                 Recipe
             VALUES
                 (1, "Arroz", "Arroz facinho de fazer",
-                 100)
+                 100, 10)
         """)
         cls.conn.run("""
             INSERT INTO
@@ -42,7 +42,7 @@ class CreateRecipeTestCase(unittest.TestCase):
         """)
 
     def test_recipe(self):
-        recipe = recipe.get_recipe_by_id(self.conn, 1)
+        recipe = Recipe.get_recipe_by_id(self.conn, 1)
         assert recipe is not None
 
     def test_get_all_recipes(self):

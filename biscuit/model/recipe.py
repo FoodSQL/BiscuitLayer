@@ -34,10 +34,10 @@ class Recipe():
 
     @classmethod
     def get_recipes_by_ingredient(cls, conn, pantry_id):
-        pantry = pantry.get_pantry(conn, pantry_id)
+        pantry = Pantry.get_pantry(conn, pantry_id)
 
         create_view =  '''
-            DROP VIEW ing_num;
+            DROP VIEW IF EXISTS ing_num;
             CREATE VIEW ing_num  AS
             SELECT r._name as _name, r.id as _id, COUNT(ri.id_recipe)  as ing_num
             FROM Recipe_Ingredient AS ri
@@ -62,9 +62,9 @@ class Recipe():
                 on Ingredient_Pantry.id_pantry = Pantry.id
             inner join ing_num
                 on ing_num._id = Recipe.id
+            where Pantry.id = (%s);
             group by Recipe.id
             order by (COUNT(Ingredient.id)/ing_num.ing_num) desc
-            where Pantry.id = (%s);
         '''
 
         conn.run(create_view)

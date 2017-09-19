@@ -4,7 +4,7 @@ import pymysql
 
 from biscuit.model.user import User
 from biscuit.util.connection_helper import ConnectionHelper
-
+from biscuit.model.ingredient import Ingredient
 
 def query_with_id(conn, _id):
     query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON up.id_pantry = p.id WHERE up.id_user = %s'
@@ -57,7 +57,7 @@ class Pantry():
         res = Pantry.fetch_pantry(cls, conn, pantry_id)
         pantry = Pantry(res[1])
         pantry._id = res[0]
-        pantry.get_pantry_ingredients(cls, conn)
+        pantry.get_pantry_ingredients(conn)
         return pantry
 
 
@@ -81,7 +81,7 @@ class Pantry():
             name = i[1]
             _id = i[0]
             ingredient = Ingredient(name, _id)
-            ingredients.append(ingredient)
+            self.ingredients.append(ingredient)
 
 
     def fetch_pantry(self, conn, pantry_id):
