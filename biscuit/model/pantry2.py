@@ -45,6 +45,7 @@ class Pantry():
     def create_pantry(cls, conn, pantry_name, user_id):
         # Constructor (cls param is used for that)
         row = cls.insert_pantry(cls, conn, pantry_name)
+        # print (row)
         pantry = Pantry(pantry_name)
         pantry.__update_id(conn)
         pantry.get_pantry_ingredients(conn)
@@ -71,17 +72,24 @@ class Pantry():
             _id = i[2]
             pantry = Pantry(name)
             pantry._id = _id
+            pantry.get_pantry_ingredients(conn)
             lista.append(pantry)
         return lista
 
     def get_pantry_ingredients(self, conn):
-        query = "SELECT * FROM Ingredient_Pantry JOIN Ingredient on id_ingredient = id WHERE id_pantry=%s"
+        query = """SELECT Ingredient._name, Ingredient.id
+                    FROM Ingredient_Pantry
+                    JOIN Ingredient
+                    on id_ingredient = id
+                    WHERE Ingredient_Pantry.id_pantry = %s
+        """
         result = conn.runall(query, self._id)
         for i in result:
-            name = i[1]
-            _id = i[0]
+            name = i[0]
+            _id = i[1]
             ingredient = Ingredient(name, _id)
             self.ingredients.append(ingredient)
+            # return coco
 
 
     def fetch_pantry(self, conn, pantry_id):
@@ -125,11 +133,16 @@ class Pantry():
         pass
 
     def insert_pantry(self, conn, _name):
-        query = "INSERT INTO Pantry(_name)" \
+        query = """
+            INSERT INTO Pantry(_name)
+            VALUES (%s);
+            SELECT LAST_INSERT_ID();
+        """
+        query1 = "INSERT INTO Pantry(_name)" \
                 "VALUES (%s)"
         args = (_name)
-        last = conn.run(query, args)
-        print(last)
+        last = conn.run(query1, args)
+        # return last
 
 
     def __update_id(self, conn):

@@ -35,13 +35,19 @@ class CreatePantryTestCase(unittest.TestCase):
                     "goku.sux123", "vegeta1@dragonball.com")
         ''')
         cls.user = User.get_user(cls.conn, 'vegeta1@dragonball.com')
+        cls.conn.run('''
+            INSERT INTO
+                User_Pantry
+            VALUES
+                (%s, 6)
+        ''', cls.user._id)
         cls.ingredient = Ingredient.get_ingredient(
             cls.conn,
             4
         )
         cls.pantry = Pantry.create_pantry(
             cls.conn,
-            'Minha Dispensa 2',
+            'Minha Dispensa',
             cls.user._id
         )
 
@@ -52,14 +58,14 @@ class CreatePantryTestCase(unittest.TestCase):
         assert self.pantry is not None
 
     def test_name_is_correct(self):
-        assert 'Minha Dispensa 2' in self.pantry._name
+        assert 'Minha Dispensa' in self.pantry._name
 
 
     def test_is_in_db(self):
         ans = self.conn.run(
             'SELECT _name FROM Pantry WHERE _name="Minha Dispensa 2"'
         )
-        assert 'Minha Dispensa 2' in ans
+        assert 'Minha Dispensa 2' in ans[0]
 
     def test_is_related(self):
         ans = self.conn.run(
@@ -100,6 +106,24 @@ class CreatePantryTestCase(unittest.TestCase):
         for i in self.pantry.ingredients:
             assert self.ingredient._name not in i._name
 
+    def test_get_pantry_ingredients(self):
+        for i in self.pantry.ingredients:
+            self.pantry.remove_ingredient(self.conn, i)
+        self.conn.run('''
+            DELETE FROM Ingredient_Pantry
+            WHERE id_pantry=6
+        ''')
+        self.conn.run('''
+            INSERT INTO Ingredient_Pantry
+            VALUES (2374, 6)
+        ''')
+        self.conn.run('''
+            INSERT INTO Ingredient_Pantry
+            VALUES (2375, 6)
+        ''')
+        result = self.pantry.get_pantry_ingredients(self.conn)
+        assert self.pantry.ingredients is None
+
     def test_remove_ingredient_from_db(self):
         ans = self.conn.run(
         """
@@ -109,13 +133,6 @@ class CreatePantryTestCase(unittest.TestCase):
         """ , (self.pantry._id, self.ingredient._id)
         )
         assert ans is None
-
-    # def test_get_pantry_ingredients(self):
-    #     for i in self.pantry.ingredients:
-    #         self.pantry.remove_ingredient(self.conn, i)
-    #
-    #     result = self.pantry.get_pantry_ingredients(self.conn)
-    #     assert Ingredient
 
 if __name__ == '__main__':
     unittest.main()

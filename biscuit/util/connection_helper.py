@@ -39,7 +39,7 @@ class ConnectionHelper:
         database = 'my_chef'
         try:
             home = str(Path.home())
-            with open('/{}/mysql-keys.txt'.format(home), 'r') as f:
+            with open (Path('/{}/mysql-keys.txt'.format(home)), 'r') as f:
                 host = str(f.readline().strip())
                 user = str(f.readline().strip())
                 password = str(f.readline().strip())
@@ -47,13 +47,13 @@ class ConnectionHelper:
         except:
             host = 'localhost'
             user = 'root'
-            password = '1234'
+            password = 'Derrick1'
 
         finally:
             conn_opt = {
                 'host': host,
                 'user': user,
-                'password': "Derrick1",
+                'password': password,
                 'database': database,
             }
             return conn_opt
