@@ -49,12 +49,12 @@ class GetUserTestCase(unittest.TestCase):
         biscuit.app.testing = True
         cls.app = biscuit.app.test_client()
         cls.conn = ConnectionHelper()
-        cls.conn.run('DELETE FROM User_Pantry')
+        cls.conn.run('DELETE FROM User_Pantry  WHERE id_user=22')
         cls.conn.run('DELETE FROM _User WHERE login="vegeta@dragonball.com";')
         cls.conn.run('''
             INSERT INTO
-                _User(_name, login, _password, email)
-            VALUES ("Vegeta", "vegeta@dragonball.com",
+                _User(id, _name, login, _password, email)
+            VALUES (22, "Vegeta", "vegeta@dragonball.com",
                     "goku.sux123", "vegeta@dragonball.com")
         ''')
         cls.user = User.get_user(cls.conn, 'vegeta@dragonball.com')

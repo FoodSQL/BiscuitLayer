@@ -7,7 +7,12 @@ from biscuit.util.connection_helper import ConnectionHelper
 from biscuit.model.ingredient import Ingredient
 
 def query_with_id(conn, _id):
-    query = 'SELECT * FROM User_Pantry up JOIN Pantry p ON up.id_pantry = p.id WHERE up.id_user = %s'
+    query = '''
+        SELECT * FROM User_Pantry up
+        JOIN Pantry p
+        ON up.id_pantry = p.id
+        WHERE up.id_user = %s
+    '''
     row = conn.runall(query, _id._id)
     return row
 
@@ -80,7 +85,7 @@ class Pantry():
     def get_pantry_ingredients(self, conn):
         query = """SELECT Ingredient._name, Ingredient.id
                     FROM Ingredient_Pantry
-                    JOIN Ingredient
+                    INNER JOIN Ingredient
                     on id_ingredient = id
                     WHERE Ingredient_Pantry.id_pantry = %s
         """
@@ -88,6 +93,7 @@ class Pantry():
         self.ingredients = []
         for i in result:
             name = i[0]
+            print ("NOME DO ingredient", name)
             _id = i[1]
             ingredient = Ingredient(name, _id)
             self.ingredients.append(ingredient)
