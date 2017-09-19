@@ -122,7 +122,7 @@ class CreatePantryTestCase(unittest.TestCase):
     #         VALUES (2375, 6)
     #     ''')
     #     result = self.pantry.get_pantry_ingredients(self.conn)
-    #     assert self.pantry.ingredients is None
+        #     assert self.pantry.ingredients is None
 
     def test_remove_ingredient_from_db(self):
         ans = self.conn.run(
