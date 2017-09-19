@@ -15,10 +15,6 @@ biscuit/model/pantry2.py
 biscuit/model/populate.py
 biscuit/model/recipe.py
 biscuit/model/user.py
-biscuit/model/__pycache__/ingredient.cpython-35.pyc
-biscuit/model/__pycache__/pantry2.cpython-35.pyc
-biscuit/model/__pycache__/recipe.cpython-35.pyc
-biscuit/model/__pycache__/user.cpython-35.pyc
 biscuit/util/connection_helper.py
 biscuit/util/json_format.py
 biscuit/util/populate_ingredients.py
@@ -38,8 +34,3 @@ tests/model/test_ingredient.py
 tests/model/test_pantry.py
 tests/model/test_recipe.py
 tests/model/test_user.py
-tests/model/__pycache__/test_ingredient.cpython-35-PYTEST.pyc
-tests/model/__pycache__/test_pantry.cpython-35-PYTEST.pyc
-tests/model/__pycache__/test_recipe.cpython-35-PYTEST.pyc
-tests/model/__pycache__/test_user.cpython-27-PYTEST.pyc
-tests/model/__pycache__/test_user.cpython-35-PYTEST.pyc

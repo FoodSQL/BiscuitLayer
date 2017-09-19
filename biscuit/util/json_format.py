@@ -84,6 +84,7 @@ def recipe_dictionary(recipe):
     res = {
         'recipe_id': recipe._id,
         'recipe_name': recipe._name,  # TODO: check _
+        'recipe_percentage': recipe.percentage,
         'recipe_ingredients': []
     }
     for ingredient in recipe.ingredients:
