@@ -61,6 +61,7 @@ class Recipe():
 
         delete_view = 'DROP VIEW IF EXISTS ing_num;'
         create_view =  '''
+            START TRANSACTION;
             CREATE VIEW ing_num  AS
             SELECT r._name as _name, r.id as _id, COUNT(ri.id_recipe)  as rec_num
             FROM Recipe_Ingredient AS ri
@@ -90,12 +91,13 @@ class Recipe():
             where Pantry.id = (%s)
             group by Recipe.id
             order by (COUNT(Ingredient.id)/ing_num.rec_num) desc;
+
         '''
 
 
         conn.run(delete_view)
-        conn.run(create_view)
-        result =  conn.runall(mega_join, pantry_id)
+        #conn.run(create_view)
+        result =  conn.runall(create_view+mega_join, pantry_id)
         recipes = []
         for i in result:
             _id = i[2]

@@ -72,7 +72,7 @@ def fetch_recipes(pantry_id):
     return recipes.fetch_recipe(ConnectionHelper(), pantry_id)
 
 
-def update_user(user_id, user_name, user_email, user_password):
+def _update_user(user_id, user_name, user_email, user_password):
     return User.update_user(ConnectionHelper(), user_id, user_name,
                             user_email, user_password)
 
@@ -86,7 +86,7 @@ def update_user():
         user_email = str(_json['user_email'])
         user_password = str(_json['user_password'])
 
-        user = update_user(user_id, user_name, user_email, user_password)
+        user = _update_user(user_id, user_name, user_email, user_password)
         return safe_user_json(user), 200
 
 

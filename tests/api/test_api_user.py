@@ -22,7 +22,7 @@ def fake_update_user(user_id, user_name, user_email, user_password):
 
 class UpdateUserAPITestCase(unittest.TestCase):
 
-    @patch('biscuit.biscuit.update_user', side_effect=fake_update_user)
+    @patch('biscuit.biscuit._update_user', side_effect=fake_update_user)
     def setUp(self, mock):
         biscuit.app.testing = True
         self.app = biscuit.app.test_client()
